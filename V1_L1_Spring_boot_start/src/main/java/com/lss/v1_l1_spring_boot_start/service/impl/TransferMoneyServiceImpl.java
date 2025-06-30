@@ -1,0 +1,29 @@
+package com.lss.v1_l1_spring_boot_start.service.impl;
+
+import com.lss.v1_l1_spring_boot_start.dao.MoneyDao;
+import com.lss.v1_l1_spring_boot_start.entity.Bank;
+import com.lss.v1_l1_spring_boot_start.exception.ResourceNotFoundException;
+import com.lss.v1_l1_spring_boot_start.service.ProphetService;
+import com.lss.v1_l1_spring_boot_start.service.TransferMoneyService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class TransferMoneyServiceImpl implements TransferMoneyService {
+
+    private final ProphetService prophetService;
+    private final MoneyDao moneyDao;
+
+    public long transfer(String name, Long amount, Long bankId) {
+        final boolean survive = prophetService.willSurvive(name);
+        final Bank bank = moneyDao.findById(bankId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Bank with id %s not found", bankId)));
+        final double bankBalance = bank.getTotalAmount();
+        if (survive && bankBalance >= amount) {
+            return 100;
+        }
+        return 0;
+    }
+
+}
