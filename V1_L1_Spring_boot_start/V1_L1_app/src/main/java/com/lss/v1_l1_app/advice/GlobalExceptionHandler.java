@@ -1,6 +1,6 @@
 package com.lss.v1_l1_app.advice;
 
-import com.lss.v1_l1_spring_boot_start.exception.ResourceNotFoundException;
+import com.lss.v1_l1_app.exception.ResourceNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;

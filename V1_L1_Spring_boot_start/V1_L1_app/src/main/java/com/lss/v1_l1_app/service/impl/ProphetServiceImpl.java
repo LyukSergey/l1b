@@ -1,7 +1,7 @@
 package com.lss.v1_l1_app.service.impl;
 
-import com.lss.v1_l1_spring_boot_start.config.ProfileConstants;
-import com.lss.v1_l1_spring_boot_start.service.ProphetService;
+import com.lss.v1_l1_app.config.ProfileConstants;
+import com.lss.v1_l1_app.service.ProphetService;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

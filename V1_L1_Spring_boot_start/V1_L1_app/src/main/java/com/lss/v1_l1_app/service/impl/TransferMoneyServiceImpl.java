@@ -1,10 +1,10 @@
 package com.lss.v1_l1_app.service.impl;
 
-import com.lss.v1_l1_spring_boot_start.dao.MoneyRepository;
-import com.lss.v1_l1_spring_boot_start.entity.Bank;
-import com.lss.v1_l1_spring_boot_start.exception.ResourceNotFoundException;
-import com.lss.v1_l1_spring_boot_start.service.ProphetService;
-import com.lss.v1_l1_spring_boot_start.service.TransferMoneyService;
+import com.lss.repository.MoneyRepository;
+import com.lss.entity.Bank;
+import com.lss.v1_l1_app.exception.ResourceNotFoundException;
+import com.lss.v1_l1_app.service.ProphetService;
+import com.lss.v1_l1_app.service.TransferMoneyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

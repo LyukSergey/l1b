@@ -1,7 +1,7 @@
 package com.lss.v1_l1_app.rest;
 
-import com.lss.v1_l1_spring_boot_start.dao.MoneyRepository;
-import com.lss.v1_l1_spring_boot_start.service.TransferMoneyService;
+import com.lss.repository.MoneyRepository;
+import com.lss.v1_l1_app.service.TransferMoneyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

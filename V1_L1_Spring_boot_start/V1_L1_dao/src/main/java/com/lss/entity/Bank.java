@@ -1,4 +1,4 @@
-package com.lss.v1_l1_app.entity;
+package com.lss.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
