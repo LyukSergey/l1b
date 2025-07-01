@@ -10,13 +10,14 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="V1_L1_Spring_boot_start" />
+        <module name="V1_L1_module" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="V1_L1_Spring_boot_start" options="-parameters" />
+      <module name="V1_L1_module" options="-parameters" />
     </option>
   </component>
 </project>

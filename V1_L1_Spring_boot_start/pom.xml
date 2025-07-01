@@ -11,9 +11,12 @@
     <groupId>com.lss</groupId>
     <artifactId>V1_L1_Spring_boot_start</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>V1_L1_Spring_boot_start</name>
     <description>V1_L1_Spring_boot_start</description>
-    <url/>
+    <modules>
+        <module>V1_L1_module</module>
+    </modules>
 
     <properties>
         <java.version>17</java.version>
@@ -32,7 +35,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
+            <scope>runtime</scope>
             <version>${h2.version}</version>
         </dependency>
         <dependency>
