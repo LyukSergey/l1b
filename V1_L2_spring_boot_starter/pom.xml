@@ -26,6 +26,7 @@
     </dependencies>
     <modules>
         <module>V1_L2_app</module>
+        <module>V1_L2_custom_starter</module>
     </modules>
 
 </project>
