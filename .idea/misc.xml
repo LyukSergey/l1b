@@ -8,7 +8,14 @@
         <option value="$PROJECT_DIR$/V1_L1_Spring_boot_start/V1_L1_app/pom.xml" />
         <option value="$PROJECT_DIR$/V1_L1_Spring_boot_start/V1_L1_dao/pom.xml" />
         <option value="$PROJECT_DIR$/V1_L2_spring_boot_starter/pom.xml" />
+        <option value="$PROJECT_DIR$/V1_L2_spring_boot_starter/V1_L2_app/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/V1_L2_spring_boot_starter/V1_L2_app/pom.xml" />
+        <option value="$PROJECT_DIR$/V1_L2_spring_boot_starter/V1_L2_main_app/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectInspectionProfilesVisibleTreeState">

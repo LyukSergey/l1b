@@ -23,5 +23,8 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+    <modules>
+        <module>V1_L2_app</module>
+    </modules>
 
 </project>
