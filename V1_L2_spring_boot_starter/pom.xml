@@ -8,6 +8,7 @@
         <version>3.5.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
+    <packaging>pom</packaging>
     <groupId>com.lss</groupId>
     <artifactId>V1_L2_spring_boot_starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
