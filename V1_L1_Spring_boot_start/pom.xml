@@ -18,6 +18,7 @@
     <modules>
         <module>V1_L1_app</module>
         <module>V1_L1_dao</module>
+        <module>V1_L1_maven_plugin</module>
     </modules>
 
     <properties>

@@ -110,6 +110,23 @@
                     </excludes>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>com.lss</groupId>
+                <artifactId>V1_L1_maven_plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>generate-my-report</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate-report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <fileName>V1_L1_app.html</fileName>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

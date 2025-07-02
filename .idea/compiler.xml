@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="V1_L1_dao" />
+        <module name="V1_L1_maven_plugin" />
       </profile>
       <profile name="Annotation profile for V1_L1_Spring_boot_start" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -25,6 +26,7 @@
       <module name="V1_L1_Spring_boot_start" options="" />
       <module name="V1_L1_app" options="-parameters" />
       <module name="V1_L1_dao" options="-parameters" />
+      <module name="V1_L1_maven_plugin" options="-parameters" />
     </option>
   </component>
 </project>
