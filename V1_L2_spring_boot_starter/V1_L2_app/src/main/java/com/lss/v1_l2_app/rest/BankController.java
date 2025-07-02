@@ -1,7 +1,7 @@
 package com.lss.v1_l2_app.rest;
 
 import com.lss.v1_l2_app.repository.MoneyRepository;
-import com.lss.v1_l2_app.service.TransferMoneyServiceImpl;
+import com.lss.v1_l2_app.service.impl.TransferMoneyServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-public class IronBankController {
+public class BankController {
 
     private final TransferMoneyServiceImpl transferMoney;
     private final MoneyRepository moneyDao;

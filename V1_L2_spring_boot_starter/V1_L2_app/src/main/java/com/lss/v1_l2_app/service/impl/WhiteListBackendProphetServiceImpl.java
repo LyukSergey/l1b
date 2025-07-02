@@ -1,7 +1,8 @@
-package com.lss.v1_l2_app.service;
+package com.lss.v1_l2_app.service.impl;
 
 import com.lss.v1_l2_app.properties.ProfileConstants;
 import com.lss.v1_l2_app.properties.ProphetProperties;
+import com.lss.v1_l2_app.service.ProphetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;

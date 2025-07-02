@@ -1,5 +1,6 @@
-package com.lss.v1_l2_app.service;
+package com.lss.v1_l2_app.service.impl;
 
+import com.lss.v1_l2_app.service.ProphetService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
