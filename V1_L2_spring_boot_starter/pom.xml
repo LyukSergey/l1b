@@ -27,6 +27,7 @@
     <modules>
         <module>V1_L2_app</module>
         <module>V1_L2_custom_starter</module>
+        <module>V1_L2_spring_core</module>
     </modules>
 
 </project>
