@@ -1,6 +1,6 @@
 package com.lss.beans;
 
-public class T1000 extends TerminatorQuoter implements Quoter {
+public class SuperStudent extends StudentImpl implements Student {
 
     @Override
     public void sayQuote() {

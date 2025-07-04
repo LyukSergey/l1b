@@ -1,6 +1,6 @@
 package com.lss.beans;
 
-public interface Quoter {
+public interface Student {
 
     void sayQuote();
 

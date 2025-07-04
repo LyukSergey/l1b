@@ -1,7 +1,8 @@
 package com.lss.controllers;
 
-public class ProfilingController implements ProfilingControllerMBean{
-    private boolean enabled = true;
+public class ProfilingController {
+
+    private boolean enabled;
 
     public boolean isEnabled() {
         return enabled;

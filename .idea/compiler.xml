@@ -7,10 +7,10 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="V1_L2_1_spring_core" />
         <module name="V1_L1_dao" />
-        <module name="V1_L2_spring_core" />
         <module name="V1_L1_maven_plugin" />
-        <module name="V1_L2_custom_starter" />
+        <module name="V1_L2_2_custom_starter" />
       </profile>
       <profile name="Annotation profile for V1_L1_Spring_boot_start" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -27,9 +27,8 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
-        <module name="V1_L2_app" />
+        <module name="V1_L2_2_app" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -42,11 +41,11 @@
       <module name="V1_L1_app" options="-parameters" />
       <module name="V1_L1_dao" options="-parameters" />
       <module name="V1_L1_maven_plugin" options="-parameters" />
-      <module name="V1_L2_app" options="-parameters" />
-      <module name="V1_L2_custom_starter" options="-parameters" />
+      <module name="V1_L2_1_spring_core" options="-parameters" />
+      <module name="V1_L2_2_app" options="-parameters" />
+      <module name="V1_L2_2_custom_starter" options="-parameters" />
       <module name="V1_L2_main_app" options="-parameters" />
       <module name="V1_L2_spring_boot_starter" options="" />
-      <module name="V1_L2_spring_core" options="-parameters" />
     </option>
   </component>
 </project>

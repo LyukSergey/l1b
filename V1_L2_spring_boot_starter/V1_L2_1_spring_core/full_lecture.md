@@ -90,7 +90,7 @@ import com.lss.annotations.InjectRandomInt;
 
 import com.lss.annotations.PostProxy;
 
-import com.lss.annotations.Profiling;
+import com.lss.annotations.Benchmark;
 
 import jakarta.annotation.PostConstruct;
 
@@ -246,7 +246,7 @@ Java
 
 package com.lss.beanPostProcessors;
 
-import com.lss.annotations.Profiling;
+import com.lss.annotations.Benchmark;
 
 import com.lss.controllers.ProfilingController;
 
