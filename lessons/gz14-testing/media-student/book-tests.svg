@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="330" viewBox="0 0 860 330">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="860" height="330" fill="#f8fafc"/>
+  <text x="430" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Що тестуємо в книгарні</text>
+
+  <!-- unit test -->
+  <rect x="40" y="70" width="370" height="210" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <rect x="40" y="70" width="370" height="44" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="225" y="98" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">Модульний (Mockito)</text>
+  <text x="60" y="140" font-family="monospace" font-size="12" fill="#2563eb">BookServiceImplTest</text>
+  <g font-family="sans-serif" font-size="12" fill="#334155">
+    <text x="60" y="168">• репозиторій — mock()</text>
+    <text x="60" y="192">• when(...).thenReturn(...)</text>
+    <text x="60" y="216">• перевірка логіки сервісу</text>
+    <text x="60" y="240">• findById → виняток для 404</text>
+  </g>
+  <text x="225" y="270" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">без запуску Spring</text>
+
+  <!-- integration test -->
+  <rect x="450" y="70" width="370" height="210" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <rect x="450" y="70" width="370" height="44" rx="12" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="635" y="98" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">Інтеграційний (MockMvc)</text>
+  <text x="470" y="140" font-family="monospace" font-size="12" fill="#0ea5e9">BookControllerTest</text>
+  <g font-family="sans-serif" font-size="12" fill="#334155">
+    <text x="470" y="168">• @WebMvcTest, сервіс — @MockBean</text>
+    <text x="470" y="192">• mockMvc.perform(get(...))</text>
+    <text x="470" y="216">• status().isOk() / isNotFound()</text>
+    <text x="470" y="240">• jsonPath перевіряє JSON</text>
+  </g>
+  <text x="635" y="270" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">без HTTP-сервера</text>
+
+  <text x="430" y="312" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">+ GlobalExceptionHandler і тести на 404 / 400</text>
+</svg>

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="360" viewBox="0 0 880 360">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="880" height="360" fill="#f8fafc"/>
+  <text x="440" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Глобальна обробка помилок (@RestControllerAdvice)</text>
+
+  <!-- controllers -->
+  <rect x="40" y="80" width="200" height="50" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="140" y="110" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">ProductController</text>
+
+  <!-- exceptions thrown -->
+  <rect x="40" y="160" width="200" height="46" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="140" y="180" font-family="monospace" font-size="11" fill="#dc2626" text-anchor="middle">ProductNotFound</text>
+  <text x="140" y="196" font-family="monospace" font-size="11" fill="#dc2626" text-anchor="middle">Exception</text>
+
+  <rect x="40" y="220" width="200" height="46" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="140" y="240" font-family="monospace" font-size="10" fill="#dc2626" text-anchor="middle">MethodArgumentNot</text>
+  <text x="140" y="256" font-family="monospace" font-size="10" fill="#dc2626" text-anchor="middle">ValidException (@Valid)</text>
+
+  <path d="M140,130 L140,158" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- advice -->
+  <rect x="330" y="150" width="220" height="90" rx="12" fill="#2563eb"/>
+  <text x="440" y="182" font-family="monospace" font-size="12" font-weight="700" fill="#ffffff" text-anchor="middle">@RestControllerAdvice</text>
+  <text x="440" y="204" font-family="sans-serif" font-size="11" fill="#dbeafe" text-anchor="middle">@ExceptionHandler</text>
+  <text x="440" y="222" font-family="sans-serif" font-size="11" fill="#dbeafe" text-anchor="middle">глобально для всіх контролерів</text>
+
+  <path d="M242,183 L328,190" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M242,243 L328,205" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- responses -->
+  <rect x="650" y="130" width="200" height="46" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="750" y="150" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">404 Not Found</text>
+  <text x="750" y="167" font-family="monospace" font-size="10" fill="#64748b" text-anchor="middle">ErrorResponse (JSON)</text>
+
+  <rect x="650" y="214" width="200" height="46" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="750" y="234" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">400 Bad Request</text>
+  <text x="750" y="251" font-family="monospace" font-size="10" fill="#64748b" text-anchor="middle">+ перелік проблем</text>
+
+  <path d="M552,180 L648,158" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+  <path d="M552,210 L648,234" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrowBlue)"/>
+
+  <text x="440" y="330" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">усі винятки з контролерів → один обробник → єдиний формат JSON-помилки</text>
+</svg>

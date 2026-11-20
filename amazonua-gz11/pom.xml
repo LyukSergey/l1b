@@ -11,7 +11,7 @@
     <groupId>com.ua</groupId>
     <artifactId>amazonua-gz11</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>amazonua</name>
+    <name>amazonua-gz11</name>
     <description>AmazonUA — навчальний магазин на Spring Boot</description>
 
     <properties>
