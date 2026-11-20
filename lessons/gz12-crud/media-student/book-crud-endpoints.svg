@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="330" viewBox="0 0 860 330">
+  <rect width="860" height="330" fill="#f8fafc"/>
+  <text x="430" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">CRUD для книгарні (Book)</text>
+
+  <g font-family="monospace" font-size="13">
+    <rect x="80" y="70" width="700" height="40" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/>
+    <text x="100" y="95" fill="#0ea5e9" font-weight="700">GET</text>
+    <text x="200" y="95" fill="#334155">/api/books</text>
+    <text x="520" y="95" fill="#64748b" font-family="sans-serif">перелік (опц. ?genre=...)  → 200</text>
+
+    <rect x="80" y="118" width="700" height="40" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/>
+    <text x="100" y="143" fill="#0ea5e9" font-weight="700">GET</text>
+    <text x="200" y="143" fill="#334155">/api/books/{id}</text>
+    <text x="520" y="143" fill="#64748b" font-family="sans-serif">одна книга з деталями  → 200 / 404</text>
+
+    <rect x="80" y="166" width="700" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="100" y="191" fill="#2563eb" font-weight="700">POST</text>
+    <text x="200" y="191" fill="#334155">/api/books</text>
+    <text x="520" y="191" fill="#64748b" font-family="sans-serif">створити книгу  → 201 Created</text>
+
+    <rect x="80" y="214" width="700" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="100" y="239" fill="#2563eb" font-weight="700">PUT</text>
+    <text x="200" y="239" fill="#334155">/api/books/{id}</text>
+    <text x="520" y="239" fill="#64748b" font-family="sans-serif">оновити книгу  → 200 / 404</text>
+
+    <rect x="80" y="262" width="700" height="40" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="100" y="287" fill="#2563eb" font-weight="700">DELETE</text>
+    <text x="200" y="287" fill="#334155">/api/books/{id}</text>
+    <text x="520" y="287" fill="#64748b" font-family="sans-serif">видалити книгу  → 204 / 404</text>
+  </g>
+</svg>

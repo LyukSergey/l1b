@@ -1,10 +1,10 @@
-package com.ua.amazonuagz12;
+package com.ua.amazonua;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class AmazonuaGz12ApplicationTests {
+class AmazonuaApplicationTests {
 
     @Test
     void contextLoads() {

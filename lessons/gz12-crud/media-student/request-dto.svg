@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="320" viewBox="0 0 820 320">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="820" height="320" fill="#f8fafc"/>
+  <text x="410" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Вхідний DTO vs вихідні DTO</text>
+
+  <!-- input -->
+  <rect x="50" y="80" width="260" height="170" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="180" y="108" font-family="sans-serif" font-size="14" font-weight="700" fill="#2563eb" text-anchor="middle">BookRequest (вхід)</text>
+  <text x="180" y="128" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">тіло POST / PUT</text>
+  <g font-family="monospace" font-size="12" fill="#334155">
+    <text x="72" y="158">title, author</text>
+    <text x="72" y="180">price, year</text>
+    <text x="72" y="202">genre, coverUrl</text>
+  </g>
+  <text x="180" y="236" font-family="sans-serif" font-size="12" fill="#dc2626" text-anchor="middle">БЕЗ id — його задає сервер</text>
+
+  <!-- output -->
+  <rect x="510" y="80" width="260" height="170" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="640" y="108" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">BookDetailDto (вихід)</text>
+  <text x="640" y="128" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">відповідь сервера</text>
+  <g font-family="monospace" font-size="12" fill="#334155">
+    <text x="532" y="158">id</text>
+    <text x="532" y="180">title, author, price</text>
+    <text x="532" y="202">year, genre, …</text>
+  </g>
+  <text x="640" y="236" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">МІСТИТЬ id</text>
+
+  <path d="M312,165 L508,165" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="410" y="155" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">сервер створює,</text>
+  <text x="410" y="188" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">призначає id</text>
+
+  <text x="410" y="295" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">вхідний і вихідний контракти різні — тому це окремі типи</text>
+</svg>

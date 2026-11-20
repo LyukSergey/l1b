@@ -1,13 +1,13 @@
-package com.ua.amazonuagz12;
+package com.ua.amazonua;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AmazonuaGz12Application {
+public class AmazonuaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AmazonuaGz12Application.class, args);
+        SpringApplication.run(AmazonuaApplication.class, args);
     }
 
 }

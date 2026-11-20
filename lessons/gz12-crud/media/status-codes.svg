@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="320" viewBox="0 0 820 320">
+  <rect width="820" height="320" fill="#f8fafc"/>
+  <text x="410" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Коди стану відповіді для CRUD</text>
+
+  <g>
+    <rect x="60" y="70" width="700" height="46" rx="8" fill="#ffffff" stroke="#0ea5e9" stroke-width="1.5"/>
+    <text x="110" y="99" font-family="monospace" font-size="16" font-weight="700" fill="#0ea5e9">200</text>
+    <text x="210" y="99" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155">OK</text>
+    <text x="330" y="99" font-family="sans-serif" font-size="13" fill="#64748b">успіх; тіло містить результат (GET, PUT)</text>
+
+    <rect x="60" y="128" width="700" height="46" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="110" y="157" font-family="monospace" font-size="16" font-weight="700" fill="#2563eb">201</text>
+    <text x="210" y="157" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155">Created</text>
+    <text x="330" y="157" font-family="sans-serif" font-size="13" fill="#64748b">ресурс створено; зазвичай відповідь на POST</text>
+
+    <rect x="60" y="186" width="700" height="46" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+    <text x="110" y="215" font-family="monospace" font-size="16" font-weight="700" fill="#2563eb">204</text>
+    <text x="210" y="215" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155">No Content</text>
+    <text x="330" y="215" font-family="sans-serif" font-size="13" fill="#64748b">успіх, БЕЗ тіла; успішний DELETE</text>
+
+    <rect x="60" y="244" width="700" height="46" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+    <text x="110" y="273" font-family="monospace" font-size="16" font-weight="700" fill="#dc2626">404</text>
+    <text x="210" y="273" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155">Not Found</text>
+    <text x="330" y="273" font-family="sans-serif" font-size="13" fill="#64748b">товар за id не знайдено (PUT/DELETE неіснуючого)</text>
+  </g>
+</svg>
