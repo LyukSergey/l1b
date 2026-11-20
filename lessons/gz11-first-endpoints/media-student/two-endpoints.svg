@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="300" viewBox="0 0 860 300">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="860" height="300" fill="#f8fafc"/>
+  <text x="430" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Два ендпоінти читання (аналог еталона)</text>
+
+  <!-- endpoint 1 -->
+  <rect x="40" y="70" width="360" height="190" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <rect x="40" y="70" width="360" height="44" rx="12" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="220" y="98" font-family="monospace" font-size="15" font-weight="700" fill="#334155" text-anchor="middle">GET /api/books</text>
+  <text x="60" y="140" font-family="sans-serif" font-size="13" fill="#334155">повертає ПЕРЕЛІК книг</text>
+  <text x="60" y="168" font-family="sans-serif" font-size="12" fill="#64748b">тип: List&lt;BookCardDto&gt;</text>
+  <text x="60" y="196" font-family="monospace" font-size="12" fill="#2563eb">@GetMapping</text>
+  <text x="60" y="222" font-family="sans-serif" font-size="12" fill="#334155">поля картки:</text>
+  <text x="60" y="244" font-family="monospace" font-size="11" fill="#64748b">id, title, author, price, coverUrl</text>
+
+  <!-- endpoint 2 -->
+  <rect x="460" y="70" width="360" height="190" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <rect x="460" y="70" width="360" height="44" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="640" y="98" font-family="monospace" font-size="15" font-weight="700" fill="#334155" text-anchor="middle">GET /api/books/{id}</text>
+  <text x="480" y="140" font-family="sans-serif" font-size="13" fill="#334155">повертає ОДНУ книгу з деталями</text>
+  <text x="480" y="168" font-family="sans-serif" font-size="12" fill="#64748b">тип: BookDetailDto</text>
+  <text x="480" y="196" font-family="monospace" font-size="12" fill="#2563eb">@GetMapping("/{id}") @PathVariable</text>
+  <text x="480" y="222" font-family="sans-serif" font-size="12" fill="#334155">якщо немає → 404</text>
+  <text x="480" y="244" font-family="monospace" font-size="11" fill="#64748b">+ description, genre, year…</text>
+
+  <text x="430" y="288" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">обидва — лише читання (GET); створення/зміна — на наступних заняттях</text>
+</svg>

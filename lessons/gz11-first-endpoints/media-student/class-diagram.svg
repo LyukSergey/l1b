@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="520" viewBox="0 0 880 520">
+  <defs>
+    <marker id="arrowOpen" markerWidth="14" markerHeight="14" refX="11" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,1 L11,5 L1,9" fill="none" stroke="#334155" stroke-width="1.5"/>
+    </marker>
+    <marker id="triangle" markerWidth="16" markerHeight="16" refX="13" refY="6" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M1,1 L13,6 L1,11 Z" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    </marker>
+  </defs>
+  <rect width="880" height="520" fill="#f8fafc"/>
+  <text x="440" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Діаграма класів: книгарня (Book)</text>
+
+  <!-- Controller -->
+  <rect x="40" y="70" width="230" height="110" rx="6" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="155" y="92" font-family="monospace" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">BookController</text>
+  <text x="155" y="108" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«web» @RestController</text>
+  <line x1="40" y1="116" x2="270" y2="116" stroke="#2563eb"/>
+  <text x="52" y="136" font-family="monospace" font-size="11" fill="#334155">+ list(): List&lt;BookCardDto&gt;</text>
+  <text x="52" y="156" font-family="monospace" font-size="11" fill="#334155">+ getOne(id): BookDetailDto</text>
+
+  <!-- Service interface -->
+  <rect x="320" y="70" width="230" height="90" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="435" y="90" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«interface»</text>
+  <text x="435" y="106" font-family="monospace" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">BookService</text>
+  <line x1="320" y1="114" x2="550" y2="114" stroke="#334155"/>
+  <text x="332" y="134" font-family="monospace" font-size="11" fill="#334155">+ findAll()</text>
+  <text x="332" y="152" font-family="monospace" font-size="11" fill="#334155">+ findById(id)</text>
+
+  <!-- Service impl -->
+  <rect x="320" y="220" width="230" height="70" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="435" y="240" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«service» @Service</text>
+  <text x="435" y="258" font-family="monospace" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">BookServiceImpl</text>
+  <line x1="320" y1="266" x2="550" y2="266" stroke="#334155"/>
+  <text x="332" y="283" font-family="monospace" font-size="10" fill="#64748b">- repository, - mapper</text>
+
+  <!-- Repository interface -->
+  <rect x="620" y="70" width="230" height="90" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="735" y="90" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«interface»</text>
+  <text x="735" y="106" font-family="monospace" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">BookRepository</text>
+  <line x1="620" y1="114" x2="850" y2="114" stroke="#334155"/>
+  <text x="632" y="134" font-family="monospace" font-size="11" fill="#334155">+ findAll()</text>
+  <text x="632" y="152" font-family="monospace" font-size="11" fill="#334155">+ findById(id)</text>
+
+  <!-- Repository impl -->
+  <rect x="620" y="220" width="230" height="70" rx="6" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="735" y="240" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«repository» @Repository</text>
+  <text x="735" y="258" font-family="monospace" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">InMemoryBookRepository</text>
+  <line x1="620" y1="266" x2="850" y2="266" stroke="#334155"/>
+  <text x="632" y="283" font-family="monospace" font-size="10" fill="#64748b">Map&lt;Long, Book&gt;</text>
+
+  <!-- Domain -->
+  <rect x="320" y="360" width="230" height="130" rx="6" fill="#f1f5f9" stroke="#334155" stroke-width="1.5"/>
+  <text x="435" y="380" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«domain»</text>
+  <text x="435" y="396" font-family="monospace" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">Book</text>
+  <line x1="320" y1="404" x2="550" y2="404" stroke="#334155"/>
+  <g font-family="monospace" font-size="11" fill="#334155">
+    <text x="332" y="424">- id: Long</text>
+    <text x="332" y="442">- title: String</text>
+    <text x="332" y="460">- author: String</text>
+    <text x="332" y="478">- price, year, coverUrl</text>
+  </g>
+
+  <!-- DTOs -->
+  <rect x="40" y="360" width="230" height="130" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="155" y="380" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">«web/dto» (record)</text>
+  <text x="155" y="398" font-family="monospace" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">BookCardDto</text>
+  <line x1="40" y1="406" x2="270" y2="406" stroke="#94a3b8"/>
+  <text x="52" y="424" font-family="monospace" font-size="10" fill="#334155">id, title, author,</text>
+  <text x="52" y="440" font-family="monospace" font-size="10" fill="#334155">price, coverUrl</text>
+  <text x="155" y="464" font-family="monospace" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">BookDetailDto</text>
+  <text x="52" y="482" font-family="monospace" font-size="10" fill="#334155">+ description, genre…</text>
+
+  <!-- relations -->
+  <!-- controller -> service (uses) -->
+  <path d="M270,120 L318,115" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowOpen)"/>
+  <!-- service -> repository (uses) -->
+  <path d="M550,120 L618,115" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowOpen)"/>
+  <!-- impl -> interface (realize) service -->
+  <path d="M435,220 L435,162" stroke="#334155" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#triangle)"/>
+  <!-- impl -> interface (realize) repo -->
+  <path d="M735,220 L735,162" stroke="#334155" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#triangle)"/>
+  <!-- service impl -> domain -->
+  <path d="M435,290 L435,358" stroke="#334155" stroke-width="1.5" marker-end="url(#arrowOpen)"/>
+
+  <text x="585" y="190" font-family="sans-serif" font-size="10" fill="#64748b">реалізує (- - ▷)</text>
+  <text x="285" y="105" font-family="sans-serif" font-size="10" fill="#64748b">залежить (→)</text>
+</svg>

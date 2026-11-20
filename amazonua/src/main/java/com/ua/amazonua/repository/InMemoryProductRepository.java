@@ -34,7 +34,7 @@ public class InMemoryProductRepository implements ProductRepository {
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(storage.get(id));
     }
-
+    
     @Override
     public Product save(Product product) {
         if (product.getId() == null) {

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="360" viewBox="0 0 860 360">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="860" height="360" fill="#f8fafc"/>
+  <text x="430" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Створення власного проєкту (Spring Initializr)</text>
+
+  <!-- step 1 -->
+  <rect x="30" y="70" width="240" height="240" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="55" cy="95" r="14" fill="#2563eb"/>
+  <text x="55" y="100" font-family="sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+  <text x="150" y="100" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">start.spring.io</text>
+  <g font-family="sans-serif" font-size="12" fill="#334155">
+    <text x="50" y="140">Project: Maven</text>
+    <text x="50" y="165">Language: Java</text>
+    <text x="50" y="190">Spring Boot: 3.4.x</text>
+    <text x="50" y="215">Java: 21</text>
+    <text x="50" y="245" font-weight="700">Dependencies:</text>
+    <text x="50" y="268" fill="#2563eb">Spring Web</text>
+    <text x="50" y="290" fill="#2563eb">Lombok (необов'язково)</text>
+  </g>
+
+  <!-- step 2 -->
+  <rect x="310" y="70" width="240" height="240" rx="12" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <circle cx="335" cy="95" r="14" fill="#2563eb"/>
+  <text x="335" y="100" font-family="sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="430" y="100" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">Generate → ZIP</text>
+  <g font-family="sans-serif" font-size="12" fill="#334155">
+    <text x="330" y="140">Завантажити архів,</text>
+    <text x="330" y="162">розпакувати,</text>
+    <text x="330" y="184">відкрити в IntelliJ IDEA.</text>
+    <text x="330" y="220" font-weight="700">Group:</text>
+    <text x="330" y="242" font-family="monospace" fill="#2563eb">com.ua</text>
+    <text x="330" y="268" font-weight="700">Artifact:</text>
+    <text x="330" y="290" font-family="monospace" fill="#2563eb">bookstore</text>
+  </g>
+
+  <!-- step 3 -->
+  <rect x="590" y="70" width="240" height="240" rx="12" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <circle cx="615" cy="95" r="14" fill="#2563eb"/>
+  <text x="615" y="100" font-family="sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+  <text x="710" y="100" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">Свій git-репозиторій</text>
+  <g font-family="monospace" font-size="12" fill="#334155">
+    <text x="610" y="140">git init</text>
+    <text x="610" y="164">git add .</text>
+    <text x="610" y="188">git commit -m</text>
+    <text x="628" y="208">"initial"</text>
+  </g>
+  <text x="710" y="250" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">власний проєкт,</text>
+  <text x="710" y="270" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">власна історія</text>
+
+  <path d="M272,190 L308,190" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M552,190 L588,190" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+</svg>

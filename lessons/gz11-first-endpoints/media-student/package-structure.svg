@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="420" viewBox="0 0 640 420">
+  <rect width="640" height="420" fill="#f8fafc"/>
+  <text x="320" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Структура пакетів вашого проєкту</text>
+
+  <rect x="40" y="56" width="560" height="340" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <g font-family="monospace" font-size="14" fill="#334155">
+    <text x="60" y="88" font-weight="700">com.ua.bookstore</text>
+    <text x="60" y="116">├── BookstoreApplication</text><text x="420" y="116" font-family="sans-serif" font-size="11" fill="#64748b">main, @SpringBootApplication</text>
+    <text x="60" y="144">├── domain/</text>
+    <text x="90" y="168" fill="#2563eb">│   └── Book</text><text x="420" y="168" font-family="sans-serif" font-size="11" fill="#64748b">поля книги, без Spring</text>
+    <text x="60" y="196">├── repository/</text>
+    <text x="90" y="220" fill="#2563eb">│   ├── BookRepository</text><text x="420" y="220" font-family="sans-serif" font-size="11" fill="#64748b">інтерфейс</text>
+    <text x="90" y="244" fill="#2563eb">│   └── InMemoryBookRepository</text><text x="460" y="244" font-family="sans-serif" font-size="11" fill="#64748b">impl</text>
+    <text x="60" y="272">├── service/</text>
+    <text x="90" y="296" fill="#2563eb">│   ├── BookService (+Impl)</text>
+    <text x="90" y="320" fill="#2563eb">│   └── mapper/ BookMapper</text>
+    <text x="60" y="348">├── web/</text>
+    <text x="90" y="372" fill="#2563eb">│   ├── BookController</text><text x="420" y="372" font-family="sans-serif" font-size="11" fill="#64748b">@RestController</text>
+  </g>
+  <text x="90" y="392" font-family="monospace" font-size="13" fill="#2563eb">│   └── dto/ BookCardDto, BookDetailDto</text>
+</svg>
