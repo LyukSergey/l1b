@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="420" viewBox="0 0 860 420">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowCyan" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#0ea5e9"/>
+    </marker>
+  </defs>
+  <rect width="860" height="420" fill="#f8fafc"/>
+  <text x="430" y="40" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Анатомія REST-ендпоінта</text>
+
+  <!-- endpoint line: слова рознесені, щоб під кожним помістився блок -->
+  <rect x="120" y="70" width="620" height="60" rx="10" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="190" y="108" font-family="monospace" font-size="22" font-weight="700" fill="#0ea5e9" text-anchor="middle">GET</text>
+  <text x="420" y="108" font-family="monospace" font-size="22" font-weight="700" fill="#334155" text-anchor="middle">/api/products</text>
+  <text x="640" y="108" font-family="monospace" font-size="22" font-weight="700" fill="#2563eb" text-anchor="middle">/{id}</text>
+
+  <!-- callouts: кожна стрілка вертикальна, блок центрований під тим самим X, що й слово -->
+  <!-- метод → під GET (x=190) -->
+  <path d="M190,132 L190,180" stroke="#0ea5e9" stroke-width="1.5" marker-end="url(#arrowCyan)"/>
+  <rect x="110" y="182" width="160" height="44" rx="8" fill="#e0f2fe" stroke="#0ea5e9" stroke-width="1.5"/>
+  <text x="190" y="209" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">метод (дія)</text>
+
+  <!-- ресурс → під /api/products (x=420) -->
+  <path d="M420,132 L420,180" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="305" y="182" width="230" height="44" rx="8" fill="#eff6ff" stroke="#334155" stroke-width="1.5"/>
+  <text x="420" y="209" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">ресурс (колекція товарів)</text>
+
+  <!-- ідентифікатор → під /{id} (x=640) -->
+  <path d="M640,132 L640,180" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <rect x="570" y="182" width="200" height="44" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="670" y="209" font-family="sans-serif" font-size="13" fill="#2563eb" text-anchor="middle">ідентифікатор елемента</text>
+
+  <!-- methods mini-table -->
+  <text x="430" y="275" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">HTTP-методи та дії над ресурсом</text>
+  <g font-family="monospace" font-size="14">
+    <rect x="250" y="290" width="360" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="280" y="310" fill="#0ea5e9" font-weight="700">GET</text><text x="440" y="310" fill="#334155" font-family="sans-serif">читати</text>
+    <rect x="250" y="322" width="360" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="280" y="342" fill="#334155" font-weight="700">POST</text><text x="440" y="342" fill="#334155" font-family="sans-serif">створити</text>
+    <rect x="250" y="354" width="360" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="280" y="374" fill="#334155" font-weight="700">PUT</text><text x="440" y="374" fill="#334155" font-family="sans-serif">замінити</text>
+    <rect x="250" y="386" width="360" height="30" rx="6" fill="#ffffff" stroke="#cbd5e1"/>
+    <text x="280" y="406" fill="#334155" font-weight="700">DELETE</text><text x="440" y="406" fill="#334155" font-family="sans-serif">видалити</text>
+  </g>
+</svg>

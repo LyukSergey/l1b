@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="400" viewBox="0 0 820 400">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="820" height="400" fill="#f8fafc"/>
+
+  <!-- service on top -->
+  <rect x="290" y="40" width="240" height="60" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="410" y="66" font-family="sans-serif" font-size="15" font-weight="700" fill="#334155" text-anchor="middle">ProductServiceImpl</text>
+  <text x="410" y="86" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">залежить від інтерфейсу</text>
+
+  <!-- interface center -->
+  <rect x="290" y="165" width="240" height="66" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+  <text x="410" y="193" font-family="sans-serif" font-size="15" font-weight="700" fill="#2563eb" text-anchor="middle">ProductRepository</text>
+  <text x="410" y="214" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">інтерфейс = контракт</text>
+
+  <path d="M410,100 L410,163" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- two implementations bottom -->
+  <rect x="120" y="300" width="260" height="64" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="250" y="328" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">InMemoryProductRepository</text>
+  <text x="250" y="348" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">заняття 1.1</text>
+
+  <rect x="440" y="300" width="260" height="64" rx="10" fill="#ffffff" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="570" y="328" font-family="sans-serif" font-size="14" font-weight="700" fill="#64748b" text-anchor="middle">JpaProductRepository</text>
+  <text x="570" y="348" font-family="sans-serif" font-size="12" fill="#94a3b8" text-anchor="middle">Модуль 2</text>
+
+  <path d="M250,298 L380,233" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M570,298 L440,233" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="300" y="268" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">реалізує</text>
+  <text x="520" y="268" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">реалізує</text>
+
+  <text x="410" y="390" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">сервіс не змінюється при заміні реалізації сховища</text>
+</svg>

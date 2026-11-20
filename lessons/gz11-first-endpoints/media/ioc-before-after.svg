@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="360" viewBox="0 0 860 360">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="860" height="360" fill="#f8fafc"/>
+
+  <!-- Left panel: Без IoC -->
+  <text x="210" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Без IoC</text>
+  <rect x="60" y="60" width="300" height="150" rx="12" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="210" y="92" font-family="sans-serif" font-size="16" font-weight="700" fill="#334155" text-anchor="middle">ProductService</text>
+  <rect x="88" y="112" width="244" height="54" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="210" y="144" font-family="monospace" font-size="13" fill="#334155" text-anchor="middle">new InMemoryProductRepository()</text>
+  <text x="210" y="238" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="middle">об'єкт сам створює залежність</text>
+
+  <!-- Right panel: З IoC -->
+  <text x="650" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#2563eb" text-anchor="middle">З IoC</text>
+  <rect x="560" y="60" width="240" height="150" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="680" y="92" font-family="sans-serif" font-size="16" font-weight="700" fill="#334155" text-anchor="middle">ProductService</text>
+  <rect x="588" y="112" width="184" height="54" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="680" y="144" font-family="sans-serif" font-size="13" fill="#2563eb" text-anchor="middle">місце для залежності</text>
+
+  <!-- Container feeding dependency -->
+  <rect x="470" y="238" width="170" height="54" rx="10" fill="#2563eb"/>
+  <text x="555" y="270" font-family="sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">Контейнер Spring</text>
+  <rect x="660" y="238" width="140" height="54" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="730" y="270" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">ProductRepository</text>
+  <path d="M640,252 L658,252" stroke="#2563eb" stroke-width="2" marker-end="url(#arrowBlue)"/>
+  <path d="M730,236 C730,210 700,180 680,168" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="680" y="320" font-family="sans-serif" font-size="13" fill="#2563eb" text-anchor="middle">залежність надають ззовні</text>
+
+  <!-- Bottom caption -->
+  <text x="430" y="350" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Інверсія керування: створення залежностей переходить від об'єкта до контейнера</text>
+</svg>

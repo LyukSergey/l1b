@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="860" height="320" fill="#f8fafc"/>
+  <text x="430" y="36" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Подвійний запит у StrictMode (режим розробки)</text>
+
+  <!-- timeline -->
+  <line x1="60" y1="130" x2="720" y2="130" stroke="#94a3b8" stroke-width="2"/>
+  <text x="730" y="134" font-family="sans-serif" font-size="12" fill="#64748b">час</text>
+  <path d="M715,130 L725,130" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- steps -->
+  <g>
+    <rect x="70" y="105" width="150" height="50" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <text x="145" y="135" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">монтування</text>
+
+    <rect x="270" y="105" width="150" height="50" rx="8" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+    <text x="345" y="135" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="middle">демонтування</text>
+
+    <rect x="470" y="105" width="190" height="50" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <text x="565" y="135" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">повторне монтування</text>
+  </g>
+
+  <!-- fetch arrows down -->
+  <path d="M145,155 L145,210" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="60" y="212" width="170" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="145" y="237" font-family="monospace" font-size="12" fill="#2563eb" text-anchor="middle">fetch('/api/products')</text>
+
+  <path d="M565,155 L565,210" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <rect x="480" y="212" width="170" height="40" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="565" y="237" font-family="monospace" font-size="12" fill="#2563eb" text-anchor="middle">fetch('/api/products')</text>
+
+  <text x="430" y="295" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">лише в режимі розробки; у зібраній версії (build) запит виконується один раз</text>
+</svg>

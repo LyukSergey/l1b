@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="340" viewBox="0 0 880 340">
+  <defs>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="880" height="340" fill="#f8fafc"/>
+
+  <!-- container -->
+  <rect x="30" y="60" width="330" height="220" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="195" y="90" font-family="sans-serif" font-size="16" font-weight="700" fill="#2563eb" text-anchor="middle">Контейнер Spring</text>
+  <text x="195" y="112" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">готові біни</text>
+
+  <rect x="70" y="135" width="250" height="48" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="195" y="164" font-family="sans-serif" font-size="14" fill="#334155" text-anchor="middle">ProductRepository</text>
+  <rect x="70" y="200" width="250" height="48" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="195" y="229" font-family="sans-serif" font-size="14" fill="#334155" text-anchor="middle">ProductMapper</text>
+
+  <!-- target being created -->
+  <rect x="490" y="90" width="360" height="160" rx="12" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="670" y="120" font-family="sans-serif" font-size="15" font-weight="700" fill="#334155" text-anchor="middle">ProductServiceImpl</text>
+  <rect x="515" y="140" width="310" height="90" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="670" y="168" font-family="monospace" font-size="12" fill="#334155" text-anchor="middle">ProductServiceImpl(</text>
+  <text x="670" y="190" font-family="monospace" font-size="12" fill="#2563eb" text-anchor="middle">ProductRepository repository,</text>
+  <text x="670" y="210" font-family="monospace" font-size="12" fill="#2563eb" text-anchor="middle">ProductMapper mapper )</text>
+
+  <!-- injection arrows -->
+  <path d="M322,159 C420,159 430,178 513,180" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M322,224 C420,224 430,205 513,200" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="430" y="150" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">підставляє</text>
+
+  <text x="440" y="315" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">ми не викликаємо new — контейнер підставляє залежності в конструктор</text>
+</svg>

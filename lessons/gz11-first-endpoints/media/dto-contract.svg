@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="380" viewBox="0 0 880 380">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="880" height="380" fill="#f8fafc"/>
+  <text x="440" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">DTO як окремий контракт API</text>
+
+  <!-- domain -->
+  <rect x="40" y="90" width="230" height="200" rx="12" fill="#ffffff" stroke="#334155" stroke-width="2"/>
+  <text x="155" y="118" font-family="sans-serif" font-size="15" font-weight="700" fill="#334155" text-anchor="middle">Product (домен)</text>
+  <g font-family="monospace" font-size="12" fill="#64748b">
+    <text x="60" y="146">id, name, price</text>
+    <text x="60" y="170">imageUrl</text>
+    <text x="60" y="194">images[]</text>
+    <text x="60" y="218">description</text>
+    <text x="60" y="242">characteristics[]</text>
+  </g>
+  <text x="155" y="276" font-family="sans-serif" font-size="11" fill="#94a3b8" text-anchor="middle">не йде назовні напряму</text>
+
+  <!-- mapper -->
+  <rect x="320" y="160" width="160" height="60" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="400" y="186" font-family="sans-serif" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">ProductMapper</text>
+  <text x="400" y="206" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Product → DTO</text>
+  <path d="M272,190 L318,190" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- two DTOs -->
+  <rect x="560" y="80" width="290" height="100" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="705" y="106" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">ProductCardDto</text>
+  <text x="705" y="128" font-family="monospace" font-size="12" fill="#64748b" text-anchor="middle">id, name, price, imageUrl</text>
+  <text x="705" y="152" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">для переліку товарів</text>
+
+  <rect x="560" y="200" width="290" height="120" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="705" y="226" font-family="sans-serif" font-size="14" font-weight="700" fill="#334155" text-anchor="middle">ProductDetailDto</text>
+  <text x="705" y="248" font-family="monospace" font-size="11" fill="#64748b" text-anchor="middle">усі поля + images +</text>
+  <text x="705" y="266" font-family="monospace" font-size="11" fill="#64748b" text-anchor="middle">characteristics</text>
+  <text x="705" y="292" font-family="sans-serif" font-size="12" fill="#2563eb" text-anchor="middle">для сторінки товару</text>
+
+  <path d="M482,180 C520,160 530,135 558,125" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M482,200 C520,230 530,250 558,255" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <text x="440" y="360" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">кожен ендпоінт повертає свій DTO — рівно ті поля, що потрібні сценарію</text>
+</svg>

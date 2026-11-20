@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="340" viewBox="0 0 900 340">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="900" height="340" fill="#f8fafc"/>
+  <text x="450" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Обробка запиту в Spring MVC</text>
+
+  <!-- legend -->
+  <rect x="320" y="48" width="16" height="16" rx="3" fill="#2563eb"/>
+  <text x="344" y="61" font-family="sans-serif" font-size="12" fill="#334155">компоненти Spring</text>
+  <rect x="490" y="48" width="16" height="16" rx="3" fill="#ffffff" stroke="#334155"/>
+  <text x="514" y="61" font-family="sans-serif" font-size="12" fill="#334155">наш код</text>
+
+  <!-- flow -->
+  <rect x="20" y="110" width="130" height="56" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="85" y="143" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">HTTP-запит</text>
+
+  <rect x="175" y="110" width="170" height="56" rx="10" fill="#2563eb"/>
+  <text x="260" y="136" font-family="sans-serif" font-size="13" font-weight="700" fill="#ffffff" text-anchor="middle">DispatcherServlet</text>
+  <text x="260" y="154" font-family="sans-serif" font-size="11" fill="#dbeafe" text-anchor="middle">(Spring)</text>
+
+  <rect x="370" y="110" width="170" height="56" rx="10" fill="#2563eb"/>
+  <text x="455" y="136" font-family="sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">пошук потрібного</text>
+  <text x="455" y="154" font-family="monospace" font-size="12" fill="#ffffff" text-anchor="middle">@GetMapping</text>
+
+  <rect x="565" y="110" width="170" height="56" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="650" y="143" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">ProductController</text>
+
+  <path d="M152,138 L173,138" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M347,138 L368,138" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M542,138 L563,138" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- return -->
+  <rect x="370" y="220" width="220" height="56" rx="10" fill="#2563eb"/>
+  <text x="480" y="246" font-family="sans-serif" font-size="12" fill="#ffffff" text-anchor="middle">HttpMessageConverter</text>
+  <text x="480" y="264" font-family="sans-serif" font-size="11" fill="#dbeafe" text-anchor="middle">Jackson → JSON</text>
+
+  <rect x="175" y="220" width="150" height="56" rx="10" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="250" y="246" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">HTTP-відповідь</text>
+  <text x="250" y="264" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">(JSON)</text>
+
+  <path d="M650,168 C650,200 620,248 592,248" stroke="#334155" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M368,248 L327,248" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text x="450" y="315" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">DispatcherServlet — центральний диспетчер Spring MVC, що маршрутизує запит і серіалізує відповідь</text>
+</svg>

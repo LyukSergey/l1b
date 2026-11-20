@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="860" height="320" fill="#f8fafc"/>
+  <text x="430" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Що приносить стартер</text>
+
+  <!-- starter -->
+  <rect x="40" y="120" width="250" height="80" rx="12" fill="#2563eb"/>
+  <text x="165" y="155" font-family="monospace" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">spring-boot-</text>
+  <text x="165" y="176" font-family="monospace" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">starter-web</text>
+
+  <!-- brought libraries -->
+  <g>
+    <rect x="560" y="60" width="260" height="46" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <text x="690" y="88" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Spring MVC</text>
+    <rect x="560" y="116" width="260" height="46" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <text x="690" y="144" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">вбудований Tomcat</text>
+    <rect x="560" y="172" width="260" height="46" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <text x="690" y="200" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">Jackson (перетворення у JSON)</text>
+    <rect x="560" y="228" width="260" height="46" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+    <text x="690" y="256" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">валідація</text>
+  </g>
+
+  <path d="M292,160 C420,160 430,83 558,83" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M292,162 C430,150 440,139 558,139" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M292,168 C430,180 440,195 558,195" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+  <path d="M292,172 C420,200 430,251 558,251" stroke="#2563eb" stroke-width="2" fill="none" marker-end="url(#arrow)"/>
+
+  <text x="430" y="305" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">одна залежність → набір сумісних між собою бібліотек</text>
+</svg>

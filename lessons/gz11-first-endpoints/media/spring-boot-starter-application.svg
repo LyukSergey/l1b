@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="320" viewBox="0 0 860 320">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="860" height="320" fill="#f8fafc"/>
+
+  <rect x="310" y="40" width="240" height="56" rx="10" fill="#2563eb"/>
+  <text x="430" y="74" font-family="monospace" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle">@SpringBootApplication</text>
+
+  <path d="M380,98 L200,180" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M430,98 L430,180" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M480,98 L660,180" stroke="#334155" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <rect x="40" y="185" width="260" height="80" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="170" y="212" font-family="monospace" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">@SpringBootConfiguration</text>
+  <text x="170" y="238" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">реєстрація</text>
+  <text x="170" y="255" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">конфігурації</text>
+
+  <rect x="320" y="185" width="220" height="80" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="430" y="212" font-family="monospace" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">@EnableAutoConfiguration</text>
+  <text x="430" y="243" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">автоконфігурація</text>
+
+  <rect x="560" y="185" width="260" height="80" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="690" y="212" font-family="monospace" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">@ComponentScan</text>
+  <text x="690" y="243" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">сканування компонентів</text>
+
+  <text x="430" y="300" font-family="sans-serif" font-size="13" fill="#334155" text-anchor="middle">одна анотація поєднує три</text>
+</svg>
