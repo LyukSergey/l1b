@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ua</groupId>
-    <artifactId>amazonua</artifactId>
+    <artifactId>amazonua-gz11</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>amazonua</name>
     <description>AmazonUA — навчальний магазин на Spring Boot</description>
