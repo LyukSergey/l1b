@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchProducts, deleteProduct } from '../api.js'
+import { fetchProducts, fetchCategories, deleteProduct } from '../api.js'
 import ProductFormModal from '../components/ProductFormModal.jsx'
 import FilterPanel from '../components/FilterPanel.jsx'
 
@@ -16,6 +16,7 @@ export default function ProductListPage() {
   const [filters, setFilters] = useState(emptyFilters)
   const [showFilters, setShowFilters] = useState(false)
   const [searchInput, setSearchInput] = useState('')
+  const [categories, setCategories] = useState([])   // для випадаючого списку у фільтрах
 
   // перезавантаження списку з поточними фільтрами
   const reload = (f = filters) =>
@@ -25,6 +26,7 @@ export default function ProductListPage() {
 
   useEffect(() => {
     reload(emptyFilters).finally(() => setLoading(false))
+    fetchCategories().then(setCategories).catch(() => {})   // необов'язкове — не блокує сторінку
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -47,11 +49,15 @@ export default function ProductListPage() {
     reload(emptyFilters)
   }
 
+  // список категорій міг змінитися (додали/прибрали товар) — перечитуємо
+  const reloadCategories = () => fetchCategories().then(setCategories).catch(() => {})
+
   const onDelete = async (id) => {
     setError(null)
     try {
       await deleteProduct(id)
       await reload()
+      await reloadCategories()
     } catch (err) {
       setError(err.message)
     }
@@ -90,6 +96,7 @@ export default function ProductListPage() {
       {showFilters && (
         <FilterPanel
           initial={filters}
+          categories={categories}
           onApply={applyFilters}
           onReset={resetAll}
           onClose={() => setShowFilters(false)}
@@ -125,7 +132,7 @@ export default function ProductListPage() {
         <ProductFormModal
           productId={modal.productId}
           onClose={() => setModal(null)}
-          onSaved={() => reload()}
+          onSaved={() => { reload(); reloadCategories() }}
         />
       )}
     </div>

@@ -49,6 +49,11 @@ public class JpaProductRepositoryAdapter implements ProductRepository {
         return jpa.search(categoryPattern, minPrice, maxPrice, qPattern);
     }
 
+    @Override
+    public List<String> findCategories() {
+        return jpa.findDistinctCategories();
+    }
+
     private static String likePattern(String value) {
         return value == null ? null : "%" + value.toLowerCase() + "%";
     }

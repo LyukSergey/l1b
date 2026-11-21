@@ -29,6 +29,9 @@ public interface ProductRepository {
      */
     List<Product> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q);
 
+    /** Унікальні категорії (для випадаючого списку фільтра на UI). */
+    List<String> findCategories();
+
     Optional<Product> findById(Long id);
 
     Product save(Product product);

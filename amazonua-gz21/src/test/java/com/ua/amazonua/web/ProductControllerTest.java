@@ -47,7 +47,7 @@ class ProductControllerTest {
 
     private ProductDetailDto sampleDetail() {
         return new ProductDetailDto(1L, "Навушники", new BigDecimal("1299.00"), "/images/h.svg",
-                List.of("/images/h.svg", "/images/h2.svg"), "Опис товару",
+                List.of("/images/h.svg", "/images/h2.svg"), "Опис товару", "Аудіо",
                 List.of(new CharacteristicDto("Колір", "Чорний")));
     }
 

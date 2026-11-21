@@ -16,6 +16,13 @@ export async function fetchProducts(filters = {}) {
   return res.json()
 }
 
+// Унікальні категорії з бекенду — для випадаючого списку у фільтрах.
+export async function fetchCategories() {
+  const res = await fetch('/api/products/categories')
+  if (!res.ok) throw new Error('Не вдалося завантажити категорії')
+  return res.json()
+}
+
 export async function fetchProduct(id) {
   const res = await fetch(`/api/products/${id}`)
   if (res.status === 404) throw new Error('Товар не знайдено')

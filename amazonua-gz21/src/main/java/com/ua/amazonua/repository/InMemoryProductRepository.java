@@ -57,6 +57,16 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
+    public List<String> findCategories() {
+        return storage.values().stream()
+                .map(Product::getCategory)
+                .filter(c -> c != null)
+                .distinct()
+                .sorted()
+                .toList();
+    }
+
+    @Override
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(storage.get(id));
     }

@@ -45,4 +45,8 @@ public interface ProductJpaRepository extends JpaRepository<Product, Long> {
                          @Param("minPrice") BigDecimal minPrice,
                          @Param("maxPrice") BigDecimal maxPrice,
                          @Param("qPattern") String qPattern);
+
+    /** Унікальні непорожні категорії (для випадаючого списку фільтра на UI). */
+    @Query("SELECT DISTINCT p.category FROM Product p WHERE p.category IS NOT NULL ORDER BY p.category")
+    List<String> findDistinctCategories();
 }

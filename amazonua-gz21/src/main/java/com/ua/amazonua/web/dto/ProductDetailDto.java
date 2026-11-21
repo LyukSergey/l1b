@@ -15,6 +15,7 @@ public record ProductDetailDto(
         String imageUrl,
         List<String> images,
         String description,
+        String category,
         List<CharacteristicDto> characteristics
 ) {
 }

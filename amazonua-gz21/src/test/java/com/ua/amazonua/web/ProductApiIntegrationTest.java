@@ -154,8 +154,22 @@ class ProductApiIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value((int) id))
                 .andExpect(jsonPath("$.name").value("Навушники"))
+                .andExpect(jsonPath("$.category").value("Аудіо"))   // категорія тепер у деталях (для редагування в UI)
                 .andExpect(jsonPath("$.characteristics").isArray())
                 .andExpect(jsonPath("$.images").isArray());
+    }
+
+    @Test
+    void categories_returnsDistinctSorted() throws Exception {
+        givenProduct("A", "Периферія");
+        givenProduct("B", "Аудіо");
+        givenProduct("C", "Периферія");   // дубль категорії
+
+        mockMvc.perform(get("/api/products/categories"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2))          // унікальні
+                .andExpect(jsonPath("$[0]").value("Аудіо"))          // відсортовано
+                .andExpect(jsonPath("$[1]").value("Периферія"));
     }
 
     @Test

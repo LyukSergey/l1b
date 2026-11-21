@@ -27,6 +27,9 @@ public interface ProductService {
      */
     List<ProductCardDto> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q);
 
+    /** Список унікальних категорій (для випадаючого списку фільтра). */
+    List<String> findCategories();
+
     /** Один товар з повними деталями; кидає ProductNotFoundException, якщо нема. */
     ProductDetailDto findById(Long id);
 

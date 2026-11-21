@@ -2,7 +2,7 @@
 // Локальний стан полів; «Застосувати» передає значення нагору, «Скинути» очищає.
 import { useState } from 'react'
 
-export default function FilterPanel({ initial, onApply, onReset, onClose }) {
+export default function FilterPanel({ initial, categories = [], onApply, onReset, onClose }) {
   const [category, setCategory] = useState(initial.category ?? '')
   const [minPrice, setMinPrice] = useState(initial.minPrice ?? '')
   const [maxPrice, setMaxPrice] = useState(initial.maxPrice ?? '')
@@ -29,8 +29,12 @@ export default function FilterPanel({ initial, onApply, onReset, onClose }) {
       <form onSubmit={apply}>
         <label className="filter-field">
           <span>Категорія</span>
-          <input placeholder="напр. Периферія (можна частину)" value={category}
-                 onChange={(e) => setCategory(e.target.value)} />
+          <select value={category} onChange={(e) => setCategory(e.target.value)}>
+            <option value="">Усі категорії</option>
+            {categories.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
         </label>
 
         <label className="filter-field">

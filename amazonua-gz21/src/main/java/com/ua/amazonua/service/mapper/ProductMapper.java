@@ -44,6 +44,7 @@ public class ProductMapper {
                 product.getImageUrl(),
                 images,
                 product.getDescription(),
+                product.getCategory(),
                 characteristics
         );
     }

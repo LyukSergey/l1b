@@ -58,6 +58,12 @@ public class ProductController {
         return productService.search(category, minPrice, maxPrice, q);
     }
 
+    /** Унікальні категорії — для випадаючого списку фільтра на UI. */
+    @GetMapping("/categories")
+    public List<String> categories() {
+        return productService.findCategories();
+    }
+
     @GetMapping("/{id}")
     public ProductDetailDto getOne(@PathVariable Long id) {
         return productService.findById(id);
