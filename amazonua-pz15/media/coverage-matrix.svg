@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="400" viewBox="0 0 860 400">
+  <rect width="860" height="400" fill="#f8fafc"/>
+  <text x="430" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Матриця покриття тестами</text>
+  <text x="430" y="56" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">кожна операція має бути покрита; помилки — окремо</text>
+
+  <!-- header -->
+  <g font-family="sans-serif" font-size="13" font-weight="700" fill="#334155">
+    <rect x="40" y="76" width="300" height="38" fill="#e2e8f0" stroke="#cbd5e1"/>
+    <text x="55" y="100">Сценарій</text>
+    <rect x="340" y="76" width="240" height="38" fill="#e2e8f0" stroke="#cbd5e1"/>
+    <text x="355" y="100">Тип тесту</text>
+    <rect x="580" y="76" width="240" height="38" fill="#e2e8f0" stroke="#cbd5e1"/>
+    <text x="595" y="100">Очікуваний результат</text>
+  </g>
+
+  <g font-family="sans-serif" font-size="12" fill="#334155">
+    <!-- rows -->
+    <rect x="40" y="114" width="300" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="55" y="135">findAll → список</text>
+    <rect x="340" y="114" width="240" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="355" y="135">unit + integration</text>
+    <rect x="580" y="114" width="240" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="595" y="135" fill="#0ea5e9">200, масив</text>
+
+    <rect x="40" y="148" width="300" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="55" y="169">findById існуючий</text>
+    <rect x="340" y="148" width="240" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="355" y="169">unit + integration</text>
+    <rect x="580" y="148" width="240" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="595" y="169" fill="#0ea5e9">200, деталі</text>
+
+    <rect x="40" y="182" width="300" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="55" y="203">findById неіснуючий</text>
+    <rect x="340" y="182" width="240" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="355" y="203">unit + integration</text>
+    <rect x="580" y="182" width="240" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="595" y="203" fill="#dc2626">404 + тіло помилки</text>
+
+    <rect x="40" y="216" width="300" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="55" y="237">create</text>
+    <rect x="340" y="216" width="240" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="355" y="237">integration</text>
+    <rect x="580" y="216" width="240" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="595" y="237" fill="#0ea5e9">201</text>
+
+    <rect x="40" y="250" width="300" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="55" y="271">create невалідний</text>
+    <rect x="340" y="250" width="240" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="355" y="271">integration</text>
+    <rect x="580" y="250" width="240" height="34" fill="#ffffff" stroke="#e2e8f0"/><text x="595" y="271" fill="#dc2626">400 + перелік проблем</text>
+
+    <rect x="40" y="284" width="300" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="55" y="305">update / delete</text>
+    <rect x="340" y="284" width="240" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="355" y="305">integration</text>
+    <rect x="580" y="284" width="240" height="34" fill="#f8fafc" stroke="#e2e8f0"/><text x="595" y="305" fill="#0ea5e9">200 / 204 (404 для неіснуючого)</text>
+  </g>
+
+  <text x="430" y="358" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">у звіті вкажіть, які сценарії покрито, а які — ні (і чому)</text>
+</svg>

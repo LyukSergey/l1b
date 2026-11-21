@@ -26,4 +26,12 @@ public interface ProductRepository {
     Product save(Product product);
 
     boolean deleteById(Long id);
+
+    /**
+     * Видалити ВСІ записи зі сховища.
+     * Потрібно для ізоляції інтеграційних тестів: кожен тест має стартувати з
+     * відомого стану, щоб тести не впливали один на одного. У Модулі 2 (реальна БД)
+     * цей метод надасть {@code JpaRepository.deleteAll()}.
+     */
+    void deleteAll();
 }

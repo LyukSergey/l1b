@@ -29,6 +29,15 @@ public class ProductSeeder implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        seed();
+    }
+
+    /**
+     * Наповнити сховище стартовими товарами. Викликається при старті (через run)
+     * і може викликатися в інтеграційних тестах у @BeforeEach — після deleteAll() —
+     * щоб кожен тест стартував із відомого, однакового набору даних.
+     */
+    public void seed() {
         repository.save(new Product(null, "Навушники AudioPro X1", new BigDecimal("1299.00"),
                 "/images/headphones.svg",
                 List.of("/images/headphones.svg", "/images/headphones-2.svg"),

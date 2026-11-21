@@ -55,4 +55,10 @@ public class InMemoryProductRepository implements ProductRepository {
     public boolean deleteById(Long id) {
         return storage.remove(id) != null;
     }
+
+    @Override
+    public void deleteAll() {
+        storage.clear();
+        sequence.set(0); // скидаємо лічильник, щоб id після повторного seed були передбачувані (1, 2, ...)
+    }
 }
