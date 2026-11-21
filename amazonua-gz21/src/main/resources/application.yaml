@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: amazonua
+
+  # Підключення до PostgreSQL (БД піднімається через docker-compose, див. docker-compose.yml).
+  # Значення можна перевизначити змінними оточення (напр. у docker-compose чи .env).
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/amazonua}
+    username: ${SPRING_DATASOURCE_USERNAME:amazonua}
+    password: ${SPRING_DATASOURCE_PASSWORD:amazonua}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      # Заняття 2/1: ddl-auto=update — Hibernate створює/оновлює таблиці зі схеми сутностей.
+      # Це зручно для навчання, АЛЕ у проді так НЕ роблять: схему мають вести міграції
+      # (Liquibase — заняття 2/2), а ddl-auto ставлять у validate або none.
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        # Зберігаємо час у БД в UTC незалежно від часового поясу машини — добра практика.
+        jdbc:
+          time_zone: UTC
+    open-in-view: false   # вимикаємо OSIV (антипатерн): сесія не тримається на весь HTTP-запит
+
+server:
+  port: 8080

@@ -1,0 +1,25 @@
+# PostgreSQL для застосунку AmazonUA (заняття 2/1).
+# Запуск:   docker compose up -d
+# Зупинка:  docker compose down            (том лишається — дані зберігаються)
+# Скинути:  docker compose down -v         (видалити том разом із даними)
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: amazonua-postgres
+    environment:
+      POSTGRES_DB: amazonua
+      POSTGRES_USER: amazonua
+      POSTGRES_PASSWORD: amazonua
+    ports:
+      - "5432:5432"
+    volumes:
+      - amazonua-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # контейнер вважається "healthy", лише коли БД готова приймати підключення
+      test: ["CMD-SHELL", "pg_isready -U amazonua -d amazonua"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  amazonua-pgdata:

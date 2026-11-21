@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="360" viewBox="0 0 880 360">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <rect width="880" height="360" fill="#f8fafc"/>
+  <text x="440" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Перенесення сутності на PostgreSQL (приклад Book)</text>
+  <text x="440" y="56" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">ваша сутність — власна; Book лише як зразок</text>
+
+  <!-- entity -->
+  <rect x="40" y="90" width="260" height="150" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="170" y="116" font-family="monospace" font-size="14" font-weight="700" fill="#2563eb" text-anchor="middle">@Entity Book</text>
+  <g font-family="monospace" font-size="12" fill="#334155">
+    <text x="60" y="144">@Id @GeneratedValue id</text>
+    <text x="60" y="168">title, author, price</text>
+    <text x="60" y="192">year, genre, coverUrl</text>
+  </g>
+  <text x="170" y="224" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">доменний клас + JPA-анотації</text>
+
+  <!-- jpa repo + adapter -->
+  <rect x="340" y="100" width="240" height="60" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="460" y="126" font-family="monospace" font-size="12" fill="#334155" text-anchor="middle">BookJpaRepository</text>
+  <text x="460" y="146" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">extends JpaRepository</text>
+
+  <rect x="340" y="175" width="240" height="60" rx="10" fill="#dbeafe" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="460" y="200" font-family="monospace" font-size="11" fill="#2563eb" text-anchor="middle">JpaBookRepositoryAdapter</text>
+  <text x="460" y="220" font-family="sans-serif" font-size="10" fill="#334155" text-anchor="middle">implements BookRepository @Primary</text>
+
+  <!-- postgres -->
+  <rect x="640" y="120" width="200" height="90" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="740" y="150" font-family="sans-serif" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">PostgreSQL</text>
+  <text x="740" y="172" font-family="monospace" font-size="11" fill="#2563eb" text-anchor="middle">таблиця books</text>
+  <text x="740" y="194" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">Docker · docker-compose</text>
+
+  <path d="M302,165 L338,150" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+  <path d="M580,205 L638,180" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text x="440" y="300" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">сервіс/контролер НЕ змінюються — лишається той самий інтерфейс BookRepository</text>
+  <text x="440" y="326" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">дані переживають перезапуск; інтеграційний тест — через Testcontainers</text>
+</svg>
