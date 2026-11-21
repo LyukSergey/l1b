@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="400" viewBox="0 0 880 400">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect width="880" height="400" fill="#f8fafc"/>
+  <text x="440" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Контекст персистентності (сесія Hibernate)</text>
+  <text x="440" y="56" font-family="sans-serif" font-size="12" fill="#64748b" text-anchor="middle">кеш 1-го рівня: відображення один-до-одного id ↔ об'єкт, доки відкрита транзакція</text>
+
+  <!-- transaction boundary -->
+  <rect x="40" y="80" width="520" height="280" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="300" y="106" font-family="sans-serif" font-size="14" font-weight="700" fill="#2563eb" text-anchor="middle">Транзакція / сесія (persistence context)</text>
+
+  <!-- managed objects -->
+  <rect x="80" y="130" width="200" height="60" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="180" y="156" font-family="monospace" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">id=1 → Product</text>
+  <text x="180" y="176" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="middle">managed (керований)</text>
+
+  <rect x="80" y="210" width="200" height="60" rx="8" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="180" y="236" font-family="monospace" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">id=2 → Product</text>
+  <text x="180" y="256" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="middle">managed (керований)</text>
+
+  <text x="180" y="305" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">кожен id — рівно ОДИН</text>
+  <text x="180" y="322" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Java-об'єкт у сесії</text>
+
+  <!-- DB -->
+  <rect x="360" y="150" width="170" height="120" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="445" y="178" font-family="sans-serif" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">PostgreSQL</text>
+  <text x="445" y="202" font-family="monospace" font-size="11" fill="#64748b" text-anchor="middle">рядок id=1</text>
+  <text x="445" y="222" font-family="monospace" font-size="11" fill="#64748b" text-anchor="middle">рядок id=2</text>
+
+  <path d="M282,160 L358,175" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <path d="M282,240 L358,230" stroke="#334155" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- after close -->
+  <rect x="600" y="130" width="240" height="140" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="720" y="158" font-family="sans-serif" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle">Після закриття сесії</text>
+  <text x="720" y="186" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">об'єкти стають</text>
+  <text x="720" y="206" font-family="monospace" font-size="12" fill="#dc2626" text-anchor="middle">detached</text>
+  <text x="720" y="232" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">Hibernate більше НЕ</text>
+  <text x="720" y="248" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">довантажує їхні дані</text>
+
+  <path d="M562,200 L598,200" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow)"/>
+  <text x="580" y="190" font-family="sans-serif" font-size="10" fill="#dc2626" text-anchor="middle">commit</text>
+
+  <text x="440" y="388" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">Hibernate відстежує зміни керованих об'єктів і сам генерує SQL — доки сесія жива</text>
+</svg>

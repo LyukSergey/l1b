@@ -1,7 +1,7 @@
 package com.ua.amazonua.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ua.amazonua.TestcontainersConfiguration;
+import com.ua.amazonua.AbstractIntegrationTest;
 import com.ua.amazonua.repository.ProductRepository;
 import com.ua.amazonua.web.dto.CharacteristicDto;
 import com.ua.amazonua.web.dto.ProductRequest;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -36,15 +35,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * (ProductSeeder лишається для ЗАПУСКУ застосунку — щоб магазин не був порожнім, — але
  * у тестах НЕ використовується.)
  *
- * Заняття 2/1: тепер тест іде проти РЕАЛЬНОГО PostgreSQL у контейнері (Testcontainers,
- * див. {@link TestcontainersConfiguration}). Контролер і сервіс при цьому НЕ змінилися
- * порівняно з in-memory — наочна інверсія залежностей (DIP): змінилась лише реалізація
- * репозиторію. Slice-тест (@WebMvcTest) базу не покриває, тому лишається окремо.
+ * Заняття 2/1: тест іде проти РЕАЛЬНОГО PostgreSQL у контейнері. Контейнер — спільний
+ * singleton із {@link AbstractIntegrationTest} (один на весь прогін). Контролер і сервіс
+ * НЕ змінилися порівняно з in-memory — наочна інверсія залежностей (DIP): змінилась лише
+ * реалізація репозиторію. Slice-тест (@WebMvcTest) базу не покриває, тому лишається окремо.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@Import(TestcontainersConfiguration.class)
-class ProductApiIntegrationTest {
+class ProductApiIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -64,8 +62,12 @@ class ProductApiIntegrationTest {
     // --- Фабрика тестових даних: тест створює товар через API й отримує його реальний id. ---
 
     private long givenProduct(String name, String category) throws Exception {
+        return givenProduct(name, category, new BigDecimal("100.00"));
+    }
+
+    private long givenProduct(String name, String category, BigDecimal price) throws Exception {
         ProductRequest request = new ProductRequest(
-                name, new BigDecimal("100.00"), "/images/mouse.svg",
+                name, price, "/images/mouse.svg",
                 List.of("/images/mouse.svg"), "опис", category,
                 List.of(new CharacteristicDto("Ключ", "Значення")));
         String body = mockMvc.perform(post("/api/products")
@@ -85,6 +87,55 @@ class ProductApiIntegrationTest {
         mockMvc.perform(get("/api/products"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(2));
+    }
+
+    @Test
+    void filter_byCategoryPriceAndSearch_throughRealDb() throws Exception {
+        // тест сам готує набір даних із різними категоріями/цінами/назвами
+        givenProduct("Навушники AudioPro", "Аудіо", new BigDecimal("1299.00"));
+        givenProduct("Клавіатура MechKey", "Периферія", new BigDecimal("1890.00"));
+        givenProduct("Миша GlideMouse", "Периферія", new BigDecimal("749.00"));
+
+        // фільтр за категорією (точна назва)
+        mockMvc.perform(get("/api/products").param("category", "Периферія"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
+        // фільтр за категорією ЧАСТКОВО (wildcard %пери%) — теж знаходить "Периферія"
+        mockMvc.perform(get("/api/products").param("category", "пери"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
+        // діапазон ціни (1000..2000) → лишаються навушники і клавіатура
+        mockMvc.perform(get("/api/products").param("minPrice", "1000").param("maxPrice", "2000"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(2));
+
+        // текстовий пошук LIKE за назвою
+        mockMvc.perform(get("/api/products").param("q", "миша"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Миша GlideMouse"));
+
+        // комбінація: категорія + пошук
+        mockMvc.perform(get("/api/products").param("category", "Периферія").param("q", "клав"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Клавіатура MechKey"));
+    }
+
+    @Test
+    void search_like_isSubstringOnly_notSmart() throws Exception {
+        // ДЕМОНСТРАЦІЯ межі LIKE: він шукає ЛИШЕ підрядок буква-в-букву.
+        givenProduct("Навушники бездротові", "Аудіо");
+
+        // точний підрядок — знайдено
+        mockMvc.perform(get("/api/products").param("q", "бездрот"))
+                .andExpect(jsonPath("$.length()").value(1));
+
+        // друкарська помилка ("наушники") — LIKE НЕ знаходить (немає розуміння словоформ/помилок)
+        mockMvc.perform(get("/api/products").param("q", "наушники"))
+                .andExpect(jsonPath("$.length()").value(0));
     }
 
     @Test

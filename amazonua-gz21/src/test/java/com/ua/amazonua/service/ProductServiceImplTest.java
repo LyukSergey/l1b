@@ -48,7 +48,8 @@ class ProductServiceImplTest {
 
     @Test
     void findAll_withoutCategory_mapsAllProductsToCards() {
-        when(repository.findAll()).thenReturn(List.of(sampleProduct()));
+        // findAll(null) делегує в search(null, null, null, null)
+        when(repository.search(null, null, null, null)).thenReturn(List.of(sampleProduct()));
 
         List<ProductCardDto> cards = service.findAll(null);
 
@@ -57,13 +58,22 @@ class ProductServiceImplTest {
     }
 
     @Test
-    void findAll_withCategory_filtersByCategory() {
-        when(repository.findByCategory("Аудіо")).thenReturn(List.of(sampleProduct()));
+    void search_withCategory_delegatesToRepository() {
+        when(repository.search("Аудіо", null, null, null)).thenReturn(List.of(sampleProduct()));
 
-        List<ProductCardDto> cards = service.findAll("Аудіо");
+        List<ProductCardDto> cards = service.search("Аудіо", null, null, null);
 
         assertThat(cards).hasSize(1);
-        verify(repository).findByCategory("Аудіо");
+        verify(repository).search("Аудіо", null, null, null);
+    }
+
+    @Test
+    void search_normalizesBlankParamsToNull() {
+        when(repository.search(null, null, null, null)).thenReturn(List.of(sampleProduct()));
+
+        service.search("  ", null, null, "  ");   // порожні → null
+
+        verify(repository).search(null, null, null, null);
     }
 
     @Test

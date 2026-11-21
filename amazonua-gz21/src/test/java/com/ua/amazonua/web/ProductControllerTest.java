@@ -58,7 +58,7 @@ class ProductControllerTest {
 
     @Test
     void list_returnsProductCards() throws Exception {
-        when(productService.findAll(null)).thenReturn(List.of(
+        when(productService.search(null, null, null, null)).thenReturn(List.of(
                 new ProductCardDto(1L, "Навушники", new BigDecimal("1299.00"), "/images/h.svg")
         ));
 
@@ -70,14 +70,29 @@ class ProductControllerTest {
 
     @Test
     void list_withCategory_passesFilter() throws Exception {
-        when(productService.findAll("Аудіо")).thenReturn(List.of(
+        when(productService.search("Аудіо", null, null, null)).thenReturn(List.of(
                 new ProductCardDto(1L, "Навушники", new BigDecimal("1299.00"), "/images/h.svg")
         ));
 
         mockMvc.perform(get("/api/products").param("category", "Аудіо"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].name").value("Навушники"));
-        verify(productService).findAll("Аудіо");
+        verify(productService).search("Аудіо", null, null, null);
+    }
+
+    @Test
+    void list_withPriceAndQuery_passesAllFilters() throws Exception {
+        when(productService.search(null, new BigDecimal("500"), new BigDecimal("2000"), "нав"))
+                .thenReturn(List.of(
+                        new ProductCardDto(1L, "Навушники", new BigDecimal("1299.00"), "/images/h.svg")));
+
+        mockMvc.perform(get("/api/products")
+                        .param("minPrice", "500")
+                        .param("maxPrice", "2000")
+                        .param("q", "нав"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].name").value("Навушники"));
+        verify(productService).search(null, new BigDecimal("500"), new BigDecimal("2000"), "нав");
     }
 
     @Test

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="420" viewBox="0 0 880 420">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#2563eb"/>
+    </marker>
+    <marker id="arrowRed" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect width="880" height="420" fill="#f8fafc"/>
+  <text x="440" y="34" font-family="sans-serif" font-size="18" font-weight="700" fill="#334155" text-anchor="middle">Ліниве завантаження (LAZY) через проксі</text>
+
+  <!-- step 1: load product -->
+  <rect x="40" y="70" width="250" height="120" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="165" y="94" font-family="monospace" font-size="13" font-weight="700" fill="#334155" text-anchor="middle">Product (id=1)</text>
+  <text x="60" y="122" font-family="monospace" font-size="11" fill="#334155">name = "Навушники"</text>
+  <text x="60" y="142" font-family="monospace" font-size="11" fill="#334155">price = 1299</text>
+  <rect x="58" y="152" width="214" height="28" rx="6" fill="#eff6ff" stroke="#2563eb" stroke-dasharray="4 3"/>
+  <text x="165" y="171" font-family="monospace" font-size="10" fill="#2563eb" text-anchor="middle">images = проксі [id товару]</text>
+
+  <text x="165" y="206" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">1. завантажили товар —</text>
+  <text x="165" y="222" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">колекція ще НЕ в пам'яті</text>
+
+  <!-- proxy holds only id -->
+  <rect x="360" y="90" width="200" height="80" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2" stroke-dasharray="5 4"/>
+  <text x="460" y="116" font-family="sans-serif" font-size="13" font-weight="700" fill="#2563eb" text-anchor="middle">Проксі (заглушка)</text>
+  <text x="460" y="140" font-family="sans-serif" font-size="11" fill="#334155" text-anchor="middle">містить ЛИШЕ id,</text>
+  <text x="460" y="158" font-family="sans-serif" font-size="11" fill="#334155" text-anchor="middle">даних поки немає</text>
+
+  <path d="M272,166 L358,140" stroke="#2563eb" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- on first access (in session) -->
+  <rect x="620" y="70" width="230" height="120" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="735" y="94" font-family="sans-serif" font-size="12" font-weight="700" fill="#334155" text-anchor="middle">Перше звернення</text>
+  <text x="735" y="112" font-family="monospace" font-size="11" fill="#334155" text-anchor="middle">product.getImages()</text>
+  <text x="735" y="138" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="middle">проксі йде в БД за id</text>
+  <text x="735" y="156" font-family="sans-serif" font-size="11" fill="#2563eb" text-anchor="middle">→ завантажує рядки</text>
+  <text x="735" y="176" font-family="sans-serif" font-size="10" fill="#64748b" text-anchor="middle">(доки сесія відкрита ✓)</text>
+
+  <path d="M562,130 L618,130" stroke="#2563eb" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- the trap -->
+  <rect x="150" y="250" width="580" height="120" rx="12" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="440" y="278" font-family="sans-serif" font-size="14" font-weight="700" fill="#dc2626" text-anchor="middle">⚠ Якщо звернутись до проксі ПІСЛЯ закриття сесії</text>
+  <text x="440" y="306" font-family="sans-serif" font-size="12" fill="#334155" text-anchor="middle">з'єднання з БД уже немає → проксі не може завантажити дані →</text>
+  <text x="440" y="330" font-family="monospace" font-size="13" font-weight="700" fill="#dc2626" text-anchor="middle">LazyInitializationException</text>
+  <text x="440" y="354" font-family="sans-serif" font-size="11" fill="#64748b" text-anchor="middle">рішення: завантажити колекцію в транзакції (List.copyOf) — див. розділ 7</text>
+
+  <path d="M460,170 L460,248" stroke="#dc2626" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#arrowRed)"/>
+</svg>

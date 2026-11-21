@@ -2,6 +2,7 @@ package com.ua.amazonua.repository;
 
 import com.ua.amazonua.domain.Product;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +21,13 @@ public interface ProductRepository {
     List<Product> findAll();
 
     List<Product> findByCategory(String category);
+
+    /**
+     * Комбінований фільтр/пошук для панелі фільтрів UI: категорія + діапазон ціни +
+     * текстовий пошук (усі критерії опційні, null = не застосовувати).
+     * Текстовий пошук примітивний (LIKE по name) — його обмеження є навчальним акцентом 2/1.
+     */
+    List<Product> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q);
 
     Optional<Product> findById(Long id);
 

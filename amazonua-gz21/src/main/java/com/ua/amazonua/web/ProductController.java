@@ -5,6 +5,7 @@ import com.ua.amazonua.web.dto.ProductCardDto;
 import com.ua.amazonua.web.dto.ProductDetailDto;
 import com.ua.amazonua.web.dto.ProductRequest;
 import jakarta.validation.Valid;
+import java.math.BigDecimal;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -43,9 +44,18 @@ public class ProductController {
         this.productService = productService;
     }
 
+    /**
+     * Перелік товарів із панеллю фільтрів: усі параметри опційні.
+     *   ?category=  — фільтр за категорією
+     *   ?minPrice= &maxPrice=  — діапазон ціни
+     *   ?q=         — текстовий пошук за назвою (примітивний LIKE — див. README заняття)
+     */
     @GetMapping
-    public List<ProductCardDto> list(@RequestParam(required = false) String category) {
-        return productService.findAll(category);
+    public List<ProductCardDto> list(@RequestParam(required = false) String category,
+                                     @RequestParam(required = false) BigDecimal minPrice,
+                                     @RequestParam(required = false) BigDecimal maxPrice,
+                                     @RequestParam(required = false) String q) {
+        return productService.search(category, minPrice, maxPrice, q);
     }
 
     @GetMapping("/{id}")

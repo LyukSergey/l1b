@@ -5,6 +5,7 @@ import com.ua.amazonua.repository.ProductRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +38,19 @@ public class JpaProductRepositoryAdapter implements ProductRepository {
     @Override
     public List<Product> findByCategory(String category) {
         return jpa.findByCategoryIgnoreCase(category);
+    }
+
+    @Override
+    public List<Product> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q) {
+        // усі текстові критерії — через LIKE-патерни у нижньому регістрі (wildcards %…%);
+        // null лишається null, тож відповідна умова не застосовується
+        String categoryPattern = likePattern(category);
+        String qPattern = likePattern(q);
+        return jpa.search(categoryPattern, minPrice, maxPrice, qPattern);
+    }
+
+    private static String likePattern(String value) {
+        return value == null ? null : "%" + value.toLowerCase() + "%";
     }
 
     @Override

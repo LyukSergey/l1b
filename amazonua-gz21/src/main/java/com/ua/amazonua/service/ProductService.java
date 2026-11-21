@@ -4,6 +4,7 @@ import com.ua.amazonua.web.dto.ProductCardDto;
 import com.ua.amazonua.web.dto.ProductDetailDto;
 import com.ua.amazonua.web.dto.ProductRequest;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -19,6 +20,12 @@ public interface ProductService {
 
     /** Список товарів для карток; якщо category != null — лише цієї категорії. */
     List<ProductCardDto> findAll(String category);
+
+    /**
+     * Фільтр/пошук для панелі фільтрів: категорія + діапазон ціни + текстовий пошук.
+     * Усі критерії опційні (null = не застосовувати). Текстовий пошук — примітивний (LIKE).
+     */
+    List<ProductCardDto> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q);
 
     /** Один товар з повними деталями; кидає ProductNotFoundException, якщо нема. */
     ProductDetailDto findById(Long id);

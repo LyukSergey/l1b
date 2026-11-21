@@ -41,6 +41,22 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
+    public List<Product> search(String category, java.math.BigDecimal minPrice,
+                                java.math.BigDecimal maxPrice, String q) {
+        // той самий примітив, що й SQL LIKE %…%: підрядок без урахування регістру
+        String catLower = category == null ? null : category.toLowerCase();
+        String qLower = q == null ? null : q.toLowerCase();
+        return storage.values().stream()
+                .filter(p -> catLower == null ||
+                        (p.getCategory() != null && p.getCategory().toLowerCase().contains(catLower)))
+                .filter(p -> minPrice == null || p.getPrice().compareTo(minPrice) >= 0)
+                .filter(p -> maxPrice == null || p.getPrice().compareTo(maxPrice) <= 0)
+                .filter(p -> qLower == null || p.getName().toLowerCase().contains(qLower))
+                .sorted(java.util.Comparator.comparing(Product::getId))
+                .toList();
+    }
+
+    @Override
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(storage.get(id));
     }

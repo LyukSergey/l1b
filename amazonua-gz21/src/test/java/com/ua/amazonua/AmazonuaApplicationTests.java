@@ -2,15 +2,14 @@ package com.ua.amazonua;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
 /**
- * Перевіряє, що контекст застосунку піднімається. Заняття 2/1: контекст тепер
- * потребує БД, тому підключаємо Testcontainers (реальний PostgreSQL у контейнері).
+ * Перевіряє, що контекст застосунку піднімається. Заняття 2/1: контекст потребує БД,
+ * тому клас успадковує {@link AbstractIntegrationTest} — спільний singleton-контейнер
+ * PostgreSQL (Testcontainers) на весь тестовий прогін.
  */
 @SpringBootTest
-@Import(TestcontainersConfiguration.class)
-class AmazonuaApplicationTests {
+class AmazonuaApplicationTests extends AbstractIntegrationTest {
 
     @Test
     void contextLoads() {

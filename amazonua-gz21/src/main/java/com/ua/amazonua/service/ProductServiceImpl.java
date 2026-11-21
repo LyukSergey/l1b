@@ -10,6 +10,7 @@ import com.ua.amazonua.web.dto.ProductRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -40,10 +41,18 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductCardDto> findAll(String category) {
-        List<Product> products = (category == null || category.isBlank())
-                ? repository.findAll()
-                : repository.findByCategory(category);
-        return products.stream().map(mapper::toCard).toList();
+        // лишаємо для сумісності з попередніми заняттями; делегуємо в загальний пошук
+        return search(category, null, null, null);
+    }
+
+    @Override
+    public List<ProductCardDto> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q) {
+        // порожні значення нормалізуємо в null, щоб відповідна умова не застосовувалась
+        String cat = (category == null || category.isBlank()) ? null : category;
+        String query = (q == null || q.isBlank()) ? null : q;
+        return repository.search(cat, minPrice, maxPrice, query).stream()
+                .map(mapper::toCard)
+                .toList();
     }
 
     @Override
