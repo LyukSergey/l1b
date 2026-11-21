@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { fetchProducts, createProduct, deleteProduct } from '../api.js'
+import { fetchProducts, deleteProduct } from '../api.js'
+import ProductFormModal from '../components/ProductFormModal.jsx'
 
-// Сторінка переліку товарів із формою створення та кнопкою видалення (заняття 1/2).
-// Кожна картка — посилання на сторінку товару (/products/:id).
+// Сторінка переліку товарів.
+// Додавання — кнопка «+»; редагування — олівець на картці; обидва відкривають модалку.
 export default function ProductListPage() {
   const [products, setProducts] = useState([])
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [form, setForm] = useState({ name: '', price: '', category: '', imageUrl: '' })
+  const [modal, setModal] = useState(null) // null | { productId?: number }
 
   const reload = () =>
     fetchProducts()
@@ -18,26 +19,6 @@ export default function ProductListPage() {
   useEffect(() => {
     reload().finally(() => setLoading(false))
   }, [])
-
-  const onCreate = async (e) => {
-    e.preventDefault()
-    setError(null)
-    try {
-      await createProduct({
-        name: form.name,
-        price: Number(form.price),
-        category: form.category,
-        imageUrl: form.imageUrl || '/images/headphones.svg',
-        images: form.imageUrl ? [form.imageUrl] : ['/images/headphones.svg'],
-        description: '',
-        characteristics: [],
-      })
-      setForm({ name: '', price: '', category: '', imageUrl: '' })
-      await reload()
-    } catch (err) {
-      setError(err.message)
-    }
-  }
 
   const onDelete = async (id) => {
     setError(null)
@@ -56,25 +37,17 @@ export default function ProductListPage() {
       <header className="header">
         <h1>AmazonUA</h1>
         <span className="muted">{products.length} товарів</span>
+        <button className="add-button" onClick={() => setModal({})}
+                title="Додати товар">+</button>
       </header>
 
       {error && <p className="error">{error}</p>}
 
-      <form className="create-form" onSubmit={onCreate}>
-        <input placeholder="Назва" value={form.name} required
-               onChange={(e) => setForm({ ...form, name: e.target.value })} />
-        <input placeholder="Ціна" type="number" step="0.01" value={form.price} required
-               onChange={(e) => setForm({ ...form, price: e.target.value })} />
-        <input placeholder="Категорія" value={form.category}
-               onChange={(e) => setForm({ ...form, category: e.target.value })} />
-        <input placeholder="URL фото (необов'язково)" value={form.imageUrl}
-               onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
-        <button type="submit">Додати товар</button>
-      </form>
-
       <div className="grid">
         {products.map((p) => (
           <div key={p.id} className="card">
+            <button className="card-edit" title="Редагувати"
+                    onClick={() => setModal({ productId: p.id })}>✎</button>
             <Link to={`/products/${p.id}`} className="card-link">
               <div className="card-image">
                 <img src={p.imageUrl} alt={p.name} loading="lazy" />
@@ -88,6 +61,14 @@ export default function ProductListPage() {
           </div>
         ))}
       </div>
+
+      {modal && (
+        <ProductFormModal
+          productId={modal.productId}
+          onClose={() => setModal(null)}
+          onSaved={reload}
+        />
+      )}
     </div>
   )
 }
