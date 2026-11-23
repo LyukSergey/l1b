@@ -1,0 +1,40 @@
+# Сховища даних для AmazonUA: PostgreSQL (товари) + MongoDB (відгуки) — polyglot persistence.
+# Запуск:   docker compose up -d
+# Зупинка:  docker compose down            (томи лишаються — дані зберігаються)
+# Скинути:  docker compose down -v         (видалити томи разом із даними)
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: amazonua-postgres
+    environment:
+      POSTGRES_DB: amazonua
+      POSTGRES_USER: amazonua
+      POSTGRES_PASSWORD: amazonua
+    ports:
+      - "5432:5432"
+    volumes:
+      - amazonua-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      # контейнер вважається "healthy", лише коли БД готова приймати підключення
+      test: ["CMD-SHELL", "pg_isready -U amazonua -d amazonua"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # Заняття 2/4: MongoDB для відгуків на товари (документна БД).
+  mongo:
+    image: mongo:7
+    container_name: amazonua-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - amazonua-mongodata:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  amazonua-pgdata:
+  amazonua-mongodata:

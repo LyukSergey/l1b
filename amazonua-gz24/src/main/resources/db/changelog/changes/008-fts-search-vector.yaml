@@ -1,0 +1,44 @@
+# Зміна 008 — повнотекстовий пошук (Full-Text Search) у PostgreSQL.
+#
+# Заняття 2/4. Додаємо до products стовпець search_vector типу tsvector — це попередньо
+# оброблений («нормалізований») текст для пошуку (з name + description). GIN-індекс робить
+# пошук по ньому швидким. Тригер тримає search_vector в актуальному стані при insert/update.
+#
+# search_vector НЕ мапимо в @Entity — це суто БД-колонка (Hibernate validate її не чіпає,
+# бо перевіряє лише колонки, оголошені в сутності). Пошук виконуємо нативним SQL.
+databaseChangeLog:
+  - changeSet:
+      id: 008-fts-search-vector
+      author: amazonua
+      changes:
+        # 1) стовпець tsvector
+        - sql: { sql: "ALTER TABLE products ADD COLUMN search_vector tsvector" }
+
+        # 2) заповнити наявні рядки: tsvector з назви й опису.
+        #    Конфігурація 'simple' — без мовного стемінгу (словоформи не зводяться до основи),
+        #    але й без прив'язки до мови; для україномовних даних це найбезпечніший вибір.
+        - sql:
+            sql: >-
+              UPDATE products
+              SET search_vector = to_tsvector('simple', coalesce(name, '') || ' ' || coalesce(description, ''))
+
+        # 3) GIN-індекс по search_vector — щоб пошук @@ був швидким (а не повним сканом)
+        - sql:
+            sql: "CREATE INDEX idx_products_search_vector ON products USING GIN (search_vector)"
+
+        # 4) тригер: при INSERT/UPDATE автоматично перераховувати search_vector
+        - sql:
+            splitStatements: false
+            sql: >-
+              CREATE OR REPLACE FUNCTION products_search_vector_update() RETURNS trigger AS $$
+              BEGIN
+                NEW.search_vector :=
+                  to_tsvector('simple', coalesce(NEW.name, '') || ' ' || coalesce(NEW.description, ''));
+                RETURN NEW;
+              END;
+              $$ LANGUAGE plpgsql;
+        - sql:
+            sql: >-
+              CREATE TRIGGER trg_products_search_vector
+              BEFORE INSERT OR UPDATE OF name, description ON products
+              FOR EACH ROW EXECUTE FUNCTION products_search_vector_update()

@@ -1,0 +1,23 @@
+# Зміна 007 — синхронізувати фото товарів з їхньою категорією.
+#
+# У ранніх seed-міграціях для деяких категорій (Накопичувачі, Кабелі…) image_url вказував
+# на наявні тоді картинки (monitor/mouse), тож на сторінці групи фото не відповідали товарам.
+# Тут одним UPDATE проставляємо кожному товару категорійну іконку /images/categories/<slug>.svg.
+# Це МІГРАЦІЯ ДАНИХ (не схеми): окремий changeSet із кількома sql-кроками.
+#
+# Попередні seed-changeSet'и НЕ правимо (checksum) — виправляємо дані новим changeSet'ом.
+databaseChangeLog:
+  - changeSet:
+      id: 007-sync-images-with-category
+      author: amazonua
+      changes:
+        # products.image_url ← категорійна іконка
+        - sql: { sql: "UPDATE products SET image_url = '/images/categories/audio.svg'       WHERE category = 'Аудіо'" }
+        - sql: { sql: "UPDATE products SET image_url = '/images/categories/monitors.svg'    WHERE category = 'Монітори'" }
+        - sql: { sql: "UPDATE products SET image_url = '/images/categories/peripherals.svg' WHERE category = 'Периферія'" }
+        - sql: { sql: "UPDATE products SET image_url = '/images/categories/accessories.svg' WHERE category = 'Аксесуари'" }
+        - sql: { sql: "UPDATE products SET image_url = '/images/categories/cables.svg'      WHERE category = 'Кабелі'" }
+        - sql: { sql: "UPDATE products SET image_url = '/images/categories/storage.svg'     WHERE category = 'Накопичувачі'" }
+        # галерея (product_images): беремо актуальне фото з products по тому ж товару
+        - sql:
+            sql: "UPDATE product_images pi SET image_url = p.image_url FROM products p WHERE pi.product_id = p.id"
