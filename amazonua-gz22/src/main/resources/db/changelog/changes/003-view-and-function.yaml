@@ -1,0 +1,32 @@
+# Зміна 003 (ОГЛЯДОВО) — SQL-подання (VIEW) і збережена функція.
+#
+# Заняття 2/2, оглядова частина: показуємо, що міграцією можна створювати не лише таблиці,
+# а й ПОДАННЯ (VIEW) та збережені ФУНКЦІЇ. Застосунок читає їх нативними запитами
+# (@Query(nativeQuery = true)). Це рідковживані для новачка речі — тут лише демонстрація.
+databaseChangeLog:
+  - changeSet:
+      id: 003-create-discounted-view
+      author: amazonua
+      changes:
+        # Подання «товари зі знижкою»: умовно — усе, що дешевше за 1500.
+        # VIEW — це збережений іменований запит, який читається як звичайна таблиця.
+        - createView:
+            viewName: products_discounted
+            replaceIfExists: true
+            selectQuery: "SELECT id, name, price FROM products WHERE price < 1500"
+
+  - changeSet:
+      id: 003-create-count-function
+      author: amazonua
+      # SQL пишемо як є; splitStatements:false — не розбивати тіло функції по ';'
+      changes:
+        - createProcedure:
+            dbms: postgresql
+            procedureName: count_products_by_category
+            procedureBody: |
+              CREATE OR REPLACE FUNCTION count_products_by_category(cat text)
+              RETURNS bigint
+              LANGUAGE sql
+              AS $$
+                SELECT count(*) FROM products WHERE category = cat;
+              $$;

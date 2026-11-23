@@ -13,3 +13,5 @@ databaseChangeLog:
       file: db/changelog/changes/001-create-products.yaml
   - include:
       file: db/changelog/changes/002-seed-products.yaml
+  - include:
+      file: db/changelog/changes/003-view-and-function.yaml

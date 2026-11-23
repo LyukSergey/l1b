@@ -1,11 +1,13 @@
 package com.ua.amazonua.web;
 
 import com.ua.amazonua.service.ProductService;
+import com.ua.amazonua.web.dto.PageDto;
 import com.ua.amazonua.web.dto.ProductCardDto;
 import com.ua.amazonua.web.dto.ProductDetailDto;
 import com.ua.amazonua.web.dto.ProductRequest;
 import jakarta.validation.Valid;
 import java.math.BigDecimal;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,10 +60,45 @@ public class ProductController {
         return productService.search(category, minPrice, maxPrice, q);
     }
 
+    /**
+     * Заняття 2/2: ПАГІНОВАНИЙ перелік із тими самими фільтрами + пагінація/сортування.
+     * Параметри сторінки Spring збирає у {@link Pageable} автоматично:
+     *   ?page=  — номер сторінки (з 0, типово 0)
+     *   ?size=  — розмір сторінки (типово 20)
+     *   ?sort=  — поле сортування, напр. ?sort=price,asc або ?sort=name,desc
+     * Повертає {@link PageDto}: вміст сторінки + метадані (totalElements, totalPages).
+     */
+    @GetMapping("/page")
+    public PageDto<ProductCardDto> page(@RequestParam(required = false) String category,
+                                        @RequestParam(required = false) BigDecimal minPrice,
+                                        @RequestParam(required = false) BigDecimal maxPrice,
+                                        @RequestParam(required = false) String q,
+                                        Pageable pageable) {
+        return productService.searchPage(category, minPrice, maxPrice, q, pageable);
+    }
+
     /** Унікальні категорії — для випадаючого списку фільтра на UI. */
     @GetMapping("/categories")
     public List<String> categories() {
         return productService.findCategories();
+    }
+
+    /**
+     * Заняття 2/2 (оглядово): перелік товарів зі знижкою — читання SQL-подання (VIEW).
+     * Подання створює міграція Liquibase; застосунок лише читає його.
+     */
+    @GetMapping("/discounted")
+    public List<ProductCardDto> discounted() {
+        return productService.findDiscounted();
+    }
+
+    /**
+     * Заняття 2/2 (оглядово): кількість товарів у категорії, порахована збереженою
+     * ФУНКЦІЄЮ в самій БД (count_products_by_category).
+     */
+    @GetMapping("/count")
+    public long countByCategory(@RequestParam String category) {
+        return productService.countByCategory(category);
     }
 
     @GetMapping("/{id}")

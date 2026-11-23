@@ -2,6 +2,9 @@ package com.ua.amazonua.repository;
 
 import com.ua.amazonua.domain.Product;
 import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -57,6 +60,18 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
+    public Page<Product> searchPage(String category, java.math.BigDecimal minPrice,
+                                    java.math.BigDecimal maxPrice, String q, Pageable pageable) {
+        // застосовуємо ті самі фільтри, тоді вручну «вирізаємо» потрібну сторінку
+        List<Product> all = search(category, minPrice, maxPrice, q);
+        int from = (int) Math.min(pageable.getOffset(), all.size());
+        int to = Math.min(from + pageable.getPageSize(), all.size());
+        List<Product> pageContent = all.subList(from, to);
+        // загальна кількість (all.size()) потрібна для totalElements/totalPages у Page
+        return new PageImpl<>(pageContent, pageable, all.size());
+    }
+
+    @Override
     public List<String> findCategories() {
         return storage.values().stream()
                 .map(Product::getCategory)
@@ -64,6 +79,20 @@ public class InMemoryProductRepository implements ProductRepository {
                 .distinct()
                 .sorted()
                 .toList();
+    }
+
+    @Override
+    public List<DiscountedRow> findDiscounted() {
+        // VIEW існує лише в PostgreSQL; у пам'яті подань немає
+        throw new UnsupportedOperationException(
+                "SQL-подання products_discounted доступне лише на PostgreSQL, не в in-memory сховищі");
+    }
+
+    @Override
+    public long countByCategoryFunction(String category) {
+        // збережена функція існує лише в PostgreSQL
+        throw new UnsupportedOperationException(
+                "Збережена функція count_products_by_category доступна лише на PostgreSQL");
     }
 
     @Override

@@ -3,6 +3,8 @@ package com.ua.amazonua.repository.jpa;
 import com.ua.amazonua.domain.Product;
 import com.ua.amazonua.repository.ProductRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -50,8 +52,31 @@ public class JpaProductRepositoryAdapter implements ProductRepository {
     }
 
     @Override
+    public Page<Product> searchPage(String category, BigDecimal minPrice, BigDecimal maxPrice,
+                                    String q, Pageable pageable) {
+        // ті самі LIKE-патерни, що й у search(); сторінку й сортування несе Pageable
+        return jpa.searchPage(likePattern(category), minPrice, maxPrice, likePattern(q), pageable);
+    }
+
+    @Override
     public List<String> findCategories() {
         return jpa.findDistinctCategories();
+    }
+
+    @Override
+    public List<DiscountedRow> findDiscounted() {
+        // кожен рядок подання приходить як Object[] {id, name, price}; мапимо у вузький record
+        return jpa.findDiscountedView().stream()
+                .map(r -> new DiscountedRow(
+                        ((Number) r[0]).longValue(),
+                        (String) r[1],
+                        (BigDecimal) r[2]))
+                .toList();
+    }
+
+    @Override
+    public long countByCategoryFunction(String category) {
+        return jpa.countByCategoryFunction(category);
     }
 
     private static String likePattern(String value) {

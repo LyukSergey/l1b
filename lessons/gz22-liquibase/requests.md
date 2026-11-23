@@ -1,7 +1,7 @@
-# Приклади запитів — заняття 2.2 (Liquibase)
+# Приклади запитів — заняття 2.2 (Liquibase, пагінація, VIEW/функція)
 
-Контракти API не змінилися з 2.1 — змінився лише спосіб ведення схеми (тепер міграції
-Liquibase замість `ddl-auto`). Нижче — перевірка роботи міграцій і звичайні запити до API.
+Схему тепер веде Liquibase (замість `ddl-auto`); додано пагінований перелік і оглядові
+подання/функцію. Нижче — перевірка міграцій, звичайні запити та нові ендпоінти.
 
 Передумови: піднята БД і застосунок.
 ```bash
@@ -17,6 +17,31 @@ docker compose up -d
 ```bash
 curl http://localhost:8080/api/products
 # → 4 стартові товари, вставлені changeset'ом 002-seed-products
+```
+
+## 1a. Пагінований перелік (сторінки + сортування)
+
+```bash
+# перша сторінка по 2 елементи
+curl "http://localhost:8080/api/products/page?page=0&size=2"
+# → { "content": [...2 товари...], "page":0, "size":2, "totalElements":4, "totalPages":2 }
+
+# сортування за ціною спаданням
+curl "http://localhost:8080/api/products/page?sort=price,desc"
+
+# пагінація разом із фільтром за категорією
+curl "http://localhost:8080/api/products/page?category=Периферія&size=10"
+```
+
+## 1b. VIEW і збережена функція (оглядово)
+
+```bash
+# товари зі знижкою — читання SQL-подання products_discounted (price < 1500)
+curl http://localhost:8080/api/products/discounted
+
+# кількість товарів у категорії — порахована збереженою функцією в БД
+curl "http://localhost:8080/api/products/count?category=Периферія"
+# → число
 ```
 
 ## 2. Один товар із деталями

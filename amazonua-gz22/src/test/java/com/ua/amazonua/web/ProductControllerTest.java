@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ua.amazonua.exception.ProductNotFoundException;
 import com.ua.amazonua.service.ProductService;
 import com.ua.amazonua.web.dto.CharacteristicDto;
+import com.ua.amazonua.web.dto.PageDto;
 import com.ua.amazonua.web.dto.ProductCardDto;
 import com.ua.amazonua.web.dto.ProductDetailDto;
 import com.ua.amazonua.web.dto.ProductRequest;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -66,6 +68,24 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(1))
                 .andExpect(jsonPath("$[0].name").value("Навушники"));
+    }
+
+    @Test
+    void page_returnsPageDtoWithContentAndMetadata() throws Exception {
+        // сервіс замокано: перевіряємо, що контролер віддає структуру PageDto в JSON
+        PageDto<ProductCardDto> page = new PageDto<>(
+                List.of(new ProductCardDto(1L, "Навушники", new BigDecimal("1299.00"), "/images/h.svg")),
+                0, 20, 1, 1);
+        when(productService.searchPage(eq(null), eq(null), eq(null), eq(null), any(Pageable.class)))
+                .thenReturn(page);
+
+        mockMvc.perform(get("/api/products/page"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].name").value("Навушники"))
+                .andExpect(jsonPath("$.page").value(0))
+                .andExpect(jsonPath("$.size").value(20))
+                .andExpect(jsonPath("$.totalElements").value(1))
+                .andExpect(jsonPath("$.totalPages").value(1));
     }
 
     @Test

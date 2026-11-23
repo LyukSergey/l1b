@@ -1,6 +1,8 @@
 package com.ua.amazonua.repository.jpa;
 
 import com.ua.amazonua.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -49,4 +51,48 @@ public interface ProductJpaRepository extends JpaRepository<Product, Long> {
     /** Унікальні непорожні категорії (для випадаючого списку фільтра на UI). */
     @Query("SELECT DISTINCT p.category FROM Product p WHERE p.category IS NOT NULL ORDER BY p.category")
     List<String> findDistinctCategories();
+
+    /**
+     * Заняття 2/2: ПАГІНОВАНИЙ пошук/фільтр. Той самий набір опційних критеріїв, що й у
+     * {@link #search}, але результат — {@link Page} зі сторінкою записів і метаданими
+     * (загальна кількість елементів/сторінок). Сортування НЕ зашито в запит (немає
+     * ORDER BY) — його задає {@link Pageable} (параметр ?sort=...).
+     *
+     * Для {@code Page} Spring Data потрібен ще й запит підрахунку загальної кількості —
+     * його задаємо явно через {@code countQuery}, щоб рахувати за тими самими критеріями.
+     */
+    @Query(value = """
+            SELECT p FROM Product p
+            WHERE (:categoryPattern IS NULL OR LOWER(p.category) LIKE CAST(:categoryPattern AS string))
+              AND (:minPrice IS NULL OR p.price >= :minPrice)
+              AND (:maxPrice IS NULL OR p.price <= :maxPrice)
+              AND (:qPattern IS NULL OR LOWER(p.name) LIKE CAST(:qPattern AS string))
+            """,
+            countQuery = """
+            SELECT count(p) FROM Product p
+            WHERE (:categoryPattern IS NULL OR LOWER(p.category) LIKE CAST(:categoryPattern AS string))
+              AND (:minPrice IS NULL OR p.price >= :minPrice)
+              AND (:maxPrice IS NULL OR p.price <= :maxPrice)
+              AND (:qPattern IS NULL OR LOWER(p.name) LIKE CAST(:qPattern AS string))
+            """)
+    Page<Product> searchPage(@Param("categoryPattern") String categoryPattern,
+                             @Param("minPrice") BigDecimal minPrice,
+                             @Param("maxPrice") BigDecimal maxPrice,
+                             @Param("qPattern") String qPattern,
+                             Pageable pageable);
+
+    /**
+     * Заняття 2/2 (ОГЛЯДОВО): читання SQL-подання (VIEW) products_discounted через
+     * НАТИВНИЙ запит. Подання створює міграція Liquibase; тут ми лише читаємо його як
+     * звичайну таблицю. nativeQuery=true означає «це справжній SQL, не JPQL».
+     */
+    @Query(value = "SELECT id, name, price FROM products_discounted ORDER BY price", nativeQuery = true)
+    List<Object[]> findDiscountedView();
+
+    /**
+     * Заняття 2/2 (ОГЛЯДОВО): виклик збереженої ФУНКЦІЇ count_products_by_category(text),
+     * яку створює міграція Liquibase. Нативний запит повертає одне число.
+     */
+    @Query(value = "SELECT count_products_by_category(:category)", nativeQuery = true)
+    long countByCategoryFunction(@Param("category") String category);
 }

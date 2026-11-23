@@ -4,9 +4,12 @@ import com.ua.amazonua.domain.Product;
 import com.ua.amazonua.exception.ProductNotFoundException;
 import com.ua.amazonua.repository.ProductRepository;
 import com.ua.amazonua.service.mapper.ProductMapper;
+import com.ua.amazonua.web.dto.PageDto;
 import com.ua.amazonua.web.dto.ProductCardDto;
 import com.ua.amazonua.web.dto.ProductDetailDto;
 import com.ua.amazonua.web.dto.ProductRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,8 +59,33 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public PageDto<ProductCardDto> searchPage(String category, BigDecimal minPrice,
+                                              BigDecimal maxPrice, String q, Pageable pageable) {
+        String cat = (category == null || category.isBlank()) ? null : category;
+        String query = (q == null || q.isBlank()) ? null : q;
+        Page<Product> page = repository.searchPage(cat, minPrice, maxPrice, query, pageable);
+        // Spring-тип Page мапимо у власний вузький PageDto: вміст карток + метадані сторінки
+        List<ProductCardDto> content = page.getContent().stream().map(mapper::toCard).toList();
+        return new PageDto<>(content, page.getNumber(), page.getSize(),
+                page.getTotalElements(), page.getTotalPages());
+    }
+
+    @Override
     public List<String> findCategories() {
         return repository.findCategories();
+    }
+
+    @Override
+    public List<ProductCardDto> findDiscounted() {
+        // рядок подання (id, name, price) → картка (imageUrl немає — подання його не містить)
+        return repository.findDiscounted().stream()
+                .map(r -> new ProductCardDto(r.id(), r.name(), r.price(), null))
+                .toList();
+    }
+
+    @Override
+    public long countByCategory(String category) {
+        return repository.countByCategoryFunction(category);
     }
 
     @Override

@@ -1,4 +1,4 @@
-# Заняття 2.2. Міграції схеми бази даних із Liquibase
+# Заняття 2.2. Міграції схеми (Liquibase); пагінація і сортування; VIEW/функції оглядово
 
 **Дисципліна:** Розробка застосунків на Spring Boot
 **Модуль 2:** Робота з базами даних (PostgreSQL глибше)
@@ -20,10 +20,14 @@ PostgreSQL через Spring Data JPA, доменною моделлю як `@En
 3. описати, що таке набір змін (*changelog*), окрема зміна (*changeset*) та службові таблиці
    `DATABASECHANGELOG` і `DATABASECHANGELOGLOCK`;
 4. написати міграцію створення таблиць (`createTable`) і міграцію початкових даних (`insert`);
-5. пояснити режим `ddl-auto: validate` і його роль поряд з міграціями.
+5. пояснити режим `ddl-auto: validate` і його роль поряд з міграціями;
+6. реалізувати пагінацію і сортування переліку (`Pageable`, `Page<T>`, параметри
+   `?page=&size=&sort=`) і пояснити, навіщо вони;
+7. мати уявлення (оглядово) про SQL-подання (VIEW) і збережену функцію та їх створення
+   міграцією Liquibase.
 
-Матеріал спирається на офіційну документацію Spring Boot, Liquibase та PostgreSQL
-(див. «Джерела»).
+Матеріал спирається на офіційну документацію Spring Boot, Spring Data JPA, Liquibase та
+PostgreSQL (див. «Джерела»).
 
 ---
 
@@ -208,7 +212,7 @@ databaseChangeLog:
 1. **Явні `id` (1..4).** Їх задають, щоб рядки колекцій (`product_images`,
    `product_characteristics`) однозначно посилалися на свій товар через `product_id`.
 2. **Зсув лічильника IDENTITY.** Колонка `id` у PostgreSQL — це стовпець-ідентичність
-   (`GENERATED ... AS IDENTITY`) [5]. Після вставки з явними `id` його внутрішній лічильник не
+   (`GENERATED ... AS IDENTITY`) [9]. Після вставки з явними `id` його внутрішній лічильник не
    зсувається сам. Тому наприкінці changeset виконує
    `ALTER TABLE products ALTER COLUMN id RESTART WITH 5`, інакше перший товар, доданий через
    `POST`, отримав би `id=1` і впав на порушенні унікальності первинного ключа.
@@ -235,35 +239,131 @@ databaseChangeLog:
 
 ---
 
-## 8. Контракти API не змінилися
+## 8. Пагінація і сортування переліку
 
-Міграції змінюють лише **спосіб ведення схеми**, а не контракти застосунку. Ендпоінти
-(`GET/POST/PUT/DELETE /api/products`, фільтри, `GET /api/products/categories`) працюють так
-само, як на 2.1. Контролер, сервіс і DTO не змінювалися — змінилися конфігурація (`pom.xml`,
-`application.yaml`) та додалися файли міграцій. Приклади запитів — у файлі
-[`requests.md`](./requests.md).
+Віддавати ВЕСЬ перелік одним запитом погано: на тисячах товарів це повільно й марнотратно
+(зайвий трафік, важка сторінка). Правильно — віддавати **сторінками**. Для цього Spring Data
+JPA пропонує два типи [5]:
+
+- **`Pageable`** — параметр, що несе номер і розмір сторінки та порядок сортування; його
+  передають у метод репозиторію, щоб динамічно додати пагінацію до запиту [5];
+- **`Page<T>`** — результат: вміст сторінки плюс метадані. `Page` «знає загальну кількість
+  елементів і сторінок», і щоб їх порахувати, інфраструктура виконує додатковий запит
+  підрахунку (count) [5]. (Є легший `Slice<T>`, який лише знає, чи є наступний зріз, і count
+  не робить [5] — нам потрібні загальні лічильники, тому беремо `Page`.)
+
+### 8.1. Ендпоінт
+
+Додано окремий пагінований перелік — `GET /api/products/page` (старий `GET /api/products`
+лишається для сумісності). Параметри сторінки Spring збирає у `Pageable` автоматично; типові
+імена й значення [6]:
+
+| Параметр | Призначення | Типово |
+|---|---|---|
+| `page` | номер сторінки, з 0 | 0 |
+| `size` | розмір сторінки | 20 |
+| `sort` | поле і напрям, формат `property,asc\|desc` | без сортування |
+
+```
+GET /api/products/page?page=1&size=8&sort=price,desc
+```
+
+Контролер лише приймає `Pageable` параметром методу — решту робить Spring:
+
+```java
+@GetMapping("/page")
+public PageDto<ProductCardDto> page(/* ...ті самі фільтри... */ Pageable pageable) {
+    return productService.searchPage(category, minPrice, maxPrice, q, pageable);
+}
+```
+
+![Пагінація: запит → Page](./media/pagination-request.svg)
+
+### 8.2. Власний `PageDto` замість повного `Page`
+
+Назовні повертаємо не Spring-тип `Page` цілком (у нього багато службових полів), а вузький
+власний DTO
+[`PageDto`](../../amazonua-gz22/src/main/java/com/ua/amazonua/web/dto/PageDto.java) — лише
+те, що потрібно клієнту: `content`, `page`, `size`, `totalElements`, `totalPages`. Це той
+самий принцип відокремлення контракту API від внутрішніх типів, що й зі звичайними DTO.
+
+### 8.3. Через усі шари (DIP збережено)
+
+Пагінований метод проходить тим самим ланцюгом, що й решта: репозиторій
+([`ProductJpaRepository.searchPage`](../../amazonua-gz22/src/main/java/com/ua/amazonua/repository/jpa/ProductJpaRepository.java)
+з `@Query` + окремим `countQuery`) → доменний інтерфейс `ProductRepository` → сервіс
+(мапить `Page<Product>` у `PageDto<ProductCardDto>`) → контролер. Сортування НЕ зашите в
+запит (немає `ORDER BY`) — його задає `Pageable`, тож `?sort=` працює для будь-якого поля.
+
+![Пагінований запит крізь шари](./media/pagination-flow.svg)
 
 ---
 
-## 9. Тестування
+## 9. SQL-подання (VIEW) і збережена функція — оглядово
 
-До наявних тестів додано інтеграційний тест
-[`LiquibaseMigrationIntegrationTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/LiquibaseMigrationIntegrationTest.java),
-що перевіряє саме роботу міграцій на реальному PostgreSQL (через Testcontainers):
+Це **додаткова, оглядова** частина: показати, що міграцією Liquibase можна створювати не
+лише таблиці, а й подання та функції, і читати їх із застосунку нативним SQL. Для новачка —
+рідковживане; детально не заглиблюємось.
 
-- таблиця `DATABASECHANGELOG` містить записи про обидва наші changeset'и;
-- таблиці, створені міграцією (`products`, `product_images`, `product_characteristics`),
-  існують;
-- seed-міграцію застосовано (перевіряємо за журналом, а не за кількістю рядків: інші
-  автономні тести на спільній базі очищають дані у `@BeforeEach`, тож рядки можуть бути вже
-  видалені, а журнал міграцій це не зачіпає).
+- **SQL-подання (VIEW)** — за визначенням, це «запит, якому дано ім'я й який можна
+  використовувати як таблицю» [7]. Міграція
+  [`003-view-and-function.yaml`](../../amazonua-gz22/src/main/resources/db/changelog/changes/003-view-and-function.yaml)
+  створює подання `products_discounted` (умовно — товари, дешевші за 1500). Застосунок читає
+  його нативним запитом (`@Query(..., nativeQuery = true)`): `GET /api/products/discounted`.
+- **Збережена функція** — іменований код у самій БД, що повертає значення [8]. Та сама
+  міграція створює `count_products_by_category(text)`; застосунок викликає її нативним
+  запитом: `GET /api/products/count?category=...`.
 
-Решта тестів (модульні, зрізовий `@WebMvcTest`, наскрізні `@SpringBootTest`) лишаються з 2.1
-і проходять без змін — тепер проти схеми, яку створив Liquibase, а не Hibernate.
+Різниця з попереднім матеріалом: тут **обчислення виконує сама БД**, а застосунок лише читає
+результат. Коли логіку доречно тримати в БД (подання для складного звіту, функція біля
+даних) — це корисно; коли ні — лишати в сервісі. На цьому занятті — лише ознайомлення.
 
 ---
 
-## 10. Запуск і перевірка
+## 10. Клієнтська частина
+
+У переліку товарів (`amazonua-ui-gz22`) додано:
+
+- **пагінатор** під списком («← Попередня», «Сторінка X з Y», «Наступна →») — ходить
+  сторінками через `GET /api/products/page`;
+- **випадаючий список сортування** (ціна ↑/↓, назва А-Я/Я-А) — передає `?sort=`.
+
+Будь-яка зміна фільтра, пошуку чи сортування повертає на першу сторінку. Клієнт отримує
+`PageDto` і показує вміст сторінки та її номер із загальної кількості. Принцип взаємодії —
+той самий (відносні шляхи + проксі середовища розробки).
+
+---
+
+## 11. Тестування
+
+Тести покривають міграції, пагінацію і оглядові VIEW/функцію на трьох рівнях піраміди.
+
+**Зрізовий (`@WebMvcTest`)** —
+[`ProductControllerTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/web/ProductControllerTest.java):
+новий тест перевіряє, що `GET /api/products/page` віддає JSON зі структурою `PageDto`
+(вміст + метадані); сервіс замокано.
+
+**Наскрізний (`@SpringBootTest`, реальний Postgres)** —
+[`ProductApiIntegrationTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/web/ProductApiIntegrationTest.java):
+крізь контролер → сервіс → реальний репозиторій перевіряє пагінацію (зріз і лічильники),
+сортування `?sort=price,desc`, фільтр разом із пагінацією, а також VIEW (`/discounted`) і
+функцію (`/count`).
+
+**Репозиторний інтеграційний (`@SpringBootTest`, реальний Postgres)** —
+[`ProductRepositoryIntegrationTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/repository/ProductRepositoryIntegrationTest.java):
+перевіряє доменний `ProductRepository` напряму — `searchPage` (пагінація/сортування/фільтр),
+читання подання та виклик функції.
+
+**Міграції** —
+[`LiquibaseMigrationIntegrationTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/LiquibaseMigrationIntegrationTest.java):
+журнал `DATABASECHANGELOG` містить наші changeset'и; створені таблиці існують; seed застосовано.
+
+Усі інтеграційні тести **автономні**: `@BeforeEach` чистить сховище, кожен тест сам готує свої
+дані й перевіряє лише їх (спільний singleton-контейнер із `AbstractIntegrationTest`).
+
+---
+
+## 12. Запуск і перевірка
 
 ### Вимоги до середовища
 
@@ -324,10 +424,11 @@ JAVA_HOME="$(/usr/libexec/java_home -v 21)" ./mvnw test
 
 ---
 
-## 11. Завдання для самостійної роботи
+## 13. Завдання для самостійної роботи
 
 Самостійна робота — продовження **власного проєкту**: перевести ведення схеми вашої сутності
-на Liquibase. Повна покрокова інструкція та діаграми — в окремому файлі:
+на Liquibase й додати пагінацію/сортування. Повна покрокова інструкція та діаграми —
+в окремому файлі:
 
 **→ [`gz22_student_task.md`](./gz22_student_task.md)**
 
@@ -336,7 +437,8 @@ JAVA_HOME="$(/usr/libexec/java_home -v 21)" ./mvnw test
 2. Міграція `createTable` для вашої таблиці (+ таблиці колекцій, якщо є) і міграція `insert`
    стартових даних; на чистій базі все створюється й наповнюється само.
 3. Другий changeSet, що додає ще кілька записів.
-4. Опис у README, що станеться, якщо змінити вже застосований changeSet (контрольна сума).
+4. Пагінований ендпоінт переліку (`Pageable`/`Page`) із сортуванням `?sort=`.
+5. Опис у README, що станеться, якщо змінити вже застосований changeSet (контрольна сума).
 
 ---
 
@@ -346,4 +448,8 @@ JAVA_HOME="$(/usr/libexec/java_home -v 21)" ./mvnw test
 2. Liquibase Documentation. *DATABASECHANGELOG table.* https://docs.liquibase.com/concepts/tracking-tables/databasechangelog-table.html
 3. Liquibase Documentation. *DATABASECHANGELOGLOCK table.* https://docs.liquibase.com/concepts/tracking-tables/databasechangeloglock-table.html
 4. Spring Boot Documentation. *Execute Liquibase Database Migrations on Startup.* https://docs.spring.io/spring-boot/how-to/data-initialization.html
-5. PostgreSQL Documentation. *Identity Columns (GENERATED ... AS IDENTITY).* https://www.postgresql.org/docs/current/ddl-identity-columns.html
+5. Spring Data JPA Documentation. *Defining Query Methods — Paging, Sorting (Pageable, Page, Slice).* https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html
+6. Spring Data JPA Documentation. *Web support — Pageable/Sort request parameters.* https://docs.spring.io/spring-data/jpa/reference/repositories/core-extensions.html
+7. PostgreSQL Documentation. *CREATE VIEW.* https://www.postgresql.org/docs/current/sql-createview.html
+8. PostgreSQL Documentation. *CREATE FUNCTION.* https://www.postgresql.org/docs/current/sql-createfunction.html
+9. PostgreSQL Documentation. *Identity Columns (GENERATED ... AS IDENTITY).* https://www.postgresql.org/docs/current/ddl-identity-columns.html

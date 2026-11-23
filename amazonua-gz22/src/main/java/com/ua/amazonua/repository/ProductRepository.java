@@ -1,6 +1,8 @@
 package com.ua.amazonua.repository;
 
 import com.ua.amazonua.domain.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -29,8 +31,32 @@ public interface ProductRepository {
      */
     List<Product> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q);
 
+    /**
+     * Заняття 2/2: ПАГІНОВАНИЙ варіант {@link #search}. Ті самі опційні критерії, але
+     * повертає ОДНУ сторінку результатів ({@link Page}) згідно з {@link Pageable}
+     * (номер і розмір сторінки + сортування). Потрібен для великих переліків, щоб не
+     * вантажити всі записи одразу.
+     */
+    Page<Product> searchPage(String category, BigDecimal minPrice, BigDecimal maxPrice, String q, Pageable pageable);
+
     /** Унікальні категорії (для випадаючого списку фільтра на UI). */
     List<String> findCategories();
+
+    /**
+     * Заняття 2/2 (ОГЛЯДОВО): рядки SQL-подання products_discounted (id, name, price).
+     * Подання — збережений іменований запит у БД; читаємо його як таблицю.
+     */
+    List<DiscountedRow> findDiscounted();
+
+    /**
+     * Заняття 2/2 (ОГЛЯДОВО): результат збереженої функції count_products_by_category.
+     * Повертає кількість товарів у вказаній категорії, пораховану кодом у самій БД.
+     */
+    long countByCategoryFunction(String category);
+
+    /** Рядок подання «товари зі знижкою» (мінімальний зріз для демонстрації VIEW). */
+    record DiscountedRow(Long id, String name, BigDecimal price) {
+    }
 
     Optional<Product> findById(Long id);
 

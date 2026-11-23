@@ -3,9 +3,10 @@
 ## Мета
 
 Перевести ведення схеми бази даних у **власному проєкті** з генерації Hibernate (`ddl-auto`)
-на **міграції Liquibase**: схему та початкові дані тепер створюють версіоновані файли змін,
-а Hibernate лише перевіряє відповідність (`validate`). Лише backend, у **власному
-репозиторії**. Наскрізний приклад тут — книгарня (сутність `Book`).
+на **міграції Liquibase** (схему та початкові дані створюють версіоновані файли змін, а
+Hibernate лише перевіряє відповідність — `validate`) і додати **пагінацію та сортування**
+переліку. Лише backend, у **власному репозиторії**. Наскрізний приклад тут — книгарня
+(сутність `Book`).
 
 ## Бали
 
@@ -14,8 +15,9 @@
 Бали виставляються за результатами **усного опитування викладача** — **4 питання по 1 балу**
 за кожне. Питання стосуються **пройденого на занятті матеріалу та цієї самостійної роботи**,
 наприклад: чому міграції кращі за `ddl-auto` у проді; що таке changelog, changeset і таблиці
-`DATABASECHANGELOG` / `DATABASECHANGELOGLOCK`; що робить режим `ddl-auto: validate`; чому міграції
-не застосовуються повторно; що станеться, якщо змінити вже застосований changeSet (контрольна сума).
+`DATABASECHANGELOG` / `DATABASECHANGELOGLOCK`; що робить режим `ddl-auto: validate`; що таке
+`Pageable`/`Page` і як параметри `?page=&size=&sort=` керують сторінкою; що станеться, якщо
+змінити вже застосований changeSet (контрольна сума).
 
 ## Передумови
 
@@ -129,6 +131,23 @@ docker exec -it <ваш-postgres> psql -U <user> -d <db> \
    Опишіть у README, що станеться (помилка невідповідності контрольної суми checksum) і
    чому так: застосовані зміни редагувати не можна — лише додавати нові.
 
+## Крок 8. Додати пагінацію і сортування
+
+ПІДКАЗКА (факти звірено з документацією Spring Data [1][2]): метод репозиторію приймає
+`Pageable` і повертає `Page<T>`; контролер приймає `Pageable` параметром методу, а Spring
+збирає його з параметрів запиту — `page` (з 0, типово 0), `size` (типово 20),
+`sort=property,asc|desc`. Скелет (без тіла — реалізуєте самі):
+```java
+// репозиторій
+Page<Book> findAll(Pageable pageable);          // або власний @Query + countQuery
+
+// контролер
+@GetMapping("/page")
+PageDto<BookCardDto> page(Pageable pageable) { /* делегувати в сервіс, змапити вміст */ }
+```
+Назовні краще віддавати власний вузький `PageDto` (content + page/size/totalElements/totalPages),
+а не Spring-тип `Page` цілком. Перевірте: `GET /api/books/page?size=2&sort=price,desc`.
+
 ---
 
 ## Що здати
@@ -136,11 +155,18 @@ docker exec -it <ваш-postgres> psql -U <user> -d <db> \
 1. У **вашому** репозиторії — підключений Liquibase, `ddl-auto: validate`.
 2. Міграція `createTable` вашої таблиці (+ таблиці колекцій, якщо є) і міграція `insert`.
 3. Другий changeSet, що додає ще кілька записів.
-4. У README — опис поведінки при зміні вже застосованого changeSet (контрольна сума).
+4. Пагінований ендпоінт переліку (`Pageable`/`Page`) із сортуванням `?sort=`.
+5. У README — опис поведінки при зміні вже застосованого changeSet (контрольна сума).
 
 ## Критерії
 
 - На чистій базі (`down -v` → `up`) схема й дані створюються міграціями самі.
 - `ddl-auto: validate`; застосунок стартує (схема збігається із сутностями).
 - Є щонайменше два окремі changeSet'и; повторний старт не застосовує їх удруге.
+- Перелік віддає сторінку (`Page`/`PageDto`) із метаданими; сортування `?sort=` працює.
 - Предметна область власна (поля відрізняються від еталона).
+
+## Джерела
+
+1. Spring Data JPA Documentation. *Paging and Sorting (Pageable, Page).* https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html
+2. Spring Data JPA Documentation. *Web support — Pageable request parameters.* https://docs.spring.io/spring-data/jpa/reference/repositories/core-extensions.html

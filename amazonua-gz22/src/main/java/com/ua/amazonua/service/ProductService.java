@@ -1,8 +1,10 @@
 package com.ua.amazonua.service;
 
+import com.ua.amazonua.web.dto.PageDto;
 import com.ua.amazonua.web.dto.ProductCardDto;
 import com.ua.amazonua.web.dto.ProductDetailDto;
 import com.ua.amazonua.web.dto.ProductRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -27,8 +29,22 @@ public interface ProductService {
      */
     List<ProductCardDto> search(String category, BigDecimal minPrice, BigDecimal maxPrice, String q);
 
+    /**
+     * Заняття 2/2: ПАГІНОВАНИЙ фільтр/пошук. Ті самі опційні критерії, але повертає ОДНУ
+     * сторінку карток разом із метаданими ({@link PageDto}): номер/розмір сторінки,
+     * загальна кількість записів і сторінок. Параметри сторінки й сортування несе Pageable.
+     */
+    PageDto<ProductCardDto> searchPage(String category, BigDecimal minPrice, BigDecimal maxPrice,
+                                       String q, Pageable pageable);
+
     /** Список унікальних категорій (для випадаючого списку фільтра). */
     List<String> findCategories();
+
+    /** Заняття 2/2 (оглядово): рядки SQL-подання «товари зі знижкою». */
+    List<ProductCardDto> findDiscounted();
+
+    /** Заняття 2/2 (оглядово): кількість товарів у категорії, порахована збереженою функцією. */
+    long countByCategory(String category);
 
     /** Один товар з повними деталями; кидає ProductNotFoundException, якщо нема. */
     ProductDetailDto findById(Long id);

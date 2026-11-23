@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 480" width="860" height="480" font-family="sans-serif">
+  <rect width="860" height="480" fill="#f8fafc"/>
+  <text x="430" y="32" text-anchor="middle" font-size="19" font-weight="bold" fill="#334155">Пагінація та сортування: запит → Page</text>
+
+  <!-- request -->
+  <rect x="150" y="58" width="560" height="52" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="430" y="82" text-anchor="middle" font-size="14" font-family="monospace" fill="#334155">GET /api/books?page=1&amp;size=20&amp;sort=price,asc</text>
+  <text x="430" y="100" text-anchor="middle" font-size="11.5" fill="#64748b">параметри запиту (query string)</text>
+
+  <!-- three param explanations -->
+  <line x1="280" y1="110" x2="200" y2="150" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#g)"/>
+  <line x1="430" y1="110" x2="430" y2="150" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#g)"/>
+  <line x1="590" y1="110" x2="660" y2="150" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#g)"/>
+
+  <rect x="70" y="154" width="200" height="74" rx="9" fill="#eff6ff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="170" y="176" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#334155">page</text>
+  <text x="170" y="196" text-anchor="middle" font-size="11.5" fill="#64748b">номер сторінки, з 0</text>
+  <text x="170" y="214" text-anchor="middle" font-size="11.5" fill="#64748b">(типово 0)</text>
+
+  <rect x="330" y="154" width="200" height="74" rx="9" fill="#eff6ff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="430" y="176" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#334155">size</text>
+  <text x="430" y="196" text-anchor="middle" font-size="11.5" fill="#64748b">розмір сторінки</text>
+  <text x="430" y="214" text-anchor="middle" font-size="11.5" fill="#64748b">(типово 20)</text>
+
+  <rect x="590" y="154" width="200" height="74" rx="9" fill="#eff6ff" stroke="#94a3b8" stroke-width="1"/>
+  <text x="690" y="176" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#334155">sort</text>
+  <text x="690" y="196" text-anchor="middle" font-size="11.5" fill="#64748b">property,asc|desc</text>
+  <text x="690" y="214" text-anchor="middle" font-size="11.5" fill="#64748b">типово без сортування</text>
+
+  <!-- arrow to pageable -->
+  <line x1="430" y1="228" x2="430" y2="258" stroke="#2563eb" stroke-width="2" marker-end="url(#b)"/>
+  <rect x="285" y="262" width="290" height="46" rx="10" fill="#2563eb"/>
+  <text x="430" y="290" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#ffffff">Spring збирає Pageable</text>
+  <line x1="430" y1="308" x2="430" y2="338" stroke="#2563eb" stroke-width="2" marker-end="url(#b)"/>
+
+  <!-- Page result -->
+  <rect x="200" y="342" width="460" height="118" rx="10" fill="#ffffff" stroke="#334155" stroke-width="1.5"/>
+  <text x="430" y="366" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#334155">Page&lt;Book&gt; — сторінка + метадані</text>
+  <text x="430" y="390" text-anchor="middle" font-size="12" fill="#64748b">content: елементи поточної сторінки</text>
+  <text x="430" y="410" text-anchor="middle" font-size="12" fill="#64748b">totalElements, totalPages — усього записів/сторінок</text>
+  <text x="430" y="430" text-anchor="middle" font-size="12" fill="#64748b">number, size — поточна сторінка та її розмір</text>
+  <text x="430" y="450" text-anchor="middle" font-size="11.5" fill="#94a3b8">Page додатково робить count-запит; Slice — ні (лише «чи є наступна»)</text>
+
+  <defs>
+    <marker id="g" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L8,5 L0,9 Z" fill="#94a3b8"/>
+    </marker>
+    <marker id="b" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M0,1 L8,5 L0,9 Z" fill="#2563eb"/>
+    </marker>
+  </defs>
+</svg>

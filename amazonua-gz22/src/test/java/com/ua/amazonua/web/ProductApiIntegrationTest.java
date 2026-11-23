@@ -19,6 +19,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -209,5 +210,78 @@ class ProductApiIntegrationTest extends AbstractIntegrationTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.status").value(400))
                 .andExpect(jsonPath("$.details").isArray());
+    }
+
+    // --- Заняття 2/2: пагінація і сортування (крізь контролер → сервіс → реальний репозиторій) ---
+
+    @Test
+    void page_returnsRequestedSliceAndTotals() throws Exception {
+        // тест сам створює рівно 5 товарів однієї категорії
+        for (int i = 1; i <= 5; i++) {
+            givenProduct("Товар " + i, "Гаджети", new BigDecimal(i * 100));
+        }
+
+        // друга сторінка по 2 елементи (page=1, size=2) → лишається 2 елементи, усього 5/3 сторінки
+        mockMvc.perform(get("/api/products/page")
+                        .param("page", "1").param("size", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.page").value(1))
+                .andExpect(jsonPath("$.size").value(2))
+                .andExpect(jsonPath("$.totalElements").value(5))
+                .andExpect(jsonPath("$.totalPages").value(3));
+    }
+
+    @Test
+    void page_sortByPriceDesc_ordersAcrossRealDb() throws Exception {
+        givenProduct("Дешевий", "Гаджети", new BigDecimal("100.00"));
+        givenProduct("Дорогий", "Гаджети", new BigDecimal("900.00"));
+        givenProduct("Середній", "Гаджети", new BigDecimal("500.00"));
+
+        // сортування задає Pageable через ?sort=price,desc — найдорожчий має бути першим
+        mockMvc.perform(get("/api/products/page").param("sort", "price,desc"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].name").value("Дорогий"))
+                .andExpect(jsonPath("$.content[2].name").value("Дешевий"));
+    }
+
+    @Test
+    void page_appliesFilterTogetherWithPaging() throws Exception {
+        givenProduct("Навушники", "Аудіо", new BigDecimal("1200.00"));
+        givenProduct("Клавіатура", "Периферія", new BigDecimal("1800.00"));
+        givenProduct("Миша", "Периферія", new BigDecimal("700.00"));
+
+        // фільтр за категорією + пагінація разом
+        mockMvc.perform(get("/api/products/page")
+                        .param("category", "Периферія").param("size", "10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.totalElements").value(2));
+    }
+
+    // --- Заняття 2/2 (оглядово): VIEW і збережена функція на реальному PostgreSQL ---
+
+    @Test
+    void discountedView_returnsProductsBelowThreshold() throws Exception {
+        // подання products_discounted: price < 1500
+        givenProduct("Дешева миша", "Периферія", new BigDecimal("749.00"));
+        givenProduct("Дорогий монітор", "Монітори", new BigDecimal("8499.00"));
+
+        mockMvc.perform(get("/api/products/discounted"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].name").value("Дешева миша"));
+    }
+
+    @Test
+    void countFunction_returnsCountForCategory() throws Exception {
+        // збережена функція count_products_by_category рахує в самій БД
+        givenProduct("A", "Периферія");
+        givenProduct("B", "Периферія");
+        givenProduct("C", "Аудіо");
+
+        mockMvc.perform(get("/api/products/count").param("category", "Периферія"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("2"));
     }
 }
