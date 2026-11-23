@@ -17,10 +17,34 @@ docker compose up -d
 curl http://localhost:8080/api/products
 ```
 
+## 1a. Фільтри та пошук
+
+```bash
+# фільтр за категорією (можна частину — wildcard %пери%)
+curl "http://localhost:8080/api/products?category=Периферія"
+
+# діапазон ціни
+curl "http://localhost:8080/api/products?minPrice=1000&maxPrice=2000"
+
+# текстовий пошук за назвою (примітивний LIKE)
+curl "http://localhost:8080/api/products?q=миша"
+
+# комбінація критеріїв
+curl "http://localhost:8080/api/products?category=Периферія&q=клав"
+```
+
+## 1b. Унікальні категорії (для випадаючого списку фільтра)
+
+```bash
+curl http://localhost:8080/api/products/categories
+# → ["Аудіо","Периферія", ...]  (унікальні, відсортовані)
+```
+
 ## 2. Один товар із деталями
 
 ```bash
 curl http://localhost:8080/api/products/1
+# відповідь містить поле "category" — потрібне формі редагування на UI
 ```
 
 ## 3. Створити товар
