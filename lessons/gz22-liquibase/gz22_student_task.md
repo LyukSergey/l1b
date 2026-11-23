@@ -93,22 +93,43 @@ databaseChangeLog:
 Якщо є колекції (`@ElementCollection`) — додайте їх таблиці та `addForeignKeyConstraint`
 (як на занятті для `product_images` / `product_characteristics`).
 
-## Крок 5. Міграція початкових даних (`insert`)
+## Крок 5. Міграція початкових даних (`insert`) — ваш тестовий датасет
 
-Файл `.../changes/002-seed-books.yaml`. Вставте 3–4 стартові записи. ПІДКАЗКА: якщо задаєте
-`id` явно, наприкінці зсуньте лічильник автоінкремента, щоб перший запис через `POST` не
-отримав уже зайнятий `id`:
+Файл `.../changes/002-seed-books.yaml`. Тут ви створюєте **власний набір тестових даних**.
+Один запис = один блок `insert` із усіма полями вашої сутності. Повний приклад одного рядка:
 ```yaml
       changes:
         - insert:
             tableName: books
             columns:
               - column: {name: id, valueNumeric: 1}
-              - column: {name: title, value: "..."}
-              # ...
-        - sql:
-            sql: "ALTER TABLE books ALTER COLUMN id RESTART WITH 5"
+              - column: {name: title, value: "Кобзар"}
+              - column: {name: author, value: "Тарас Шевченко"}
+              - column: {name: price, valueNumeric: 250.00}
+              - column: {name: year, valueNumeric: 1840}
+        # ... наступні книги — такі самі блоки insert з id 2, 3, 4 ...
 ```
+
+**ПІДКАЗКА — як легко зробити БАГАТО записів** (щоб пагінація реально працювала, потрібно
+більше за розмір сторінки, напр. 15–30):
+- скопіюйте блок `insert` потрібну кількість разів, міняючи лише `id` і значення полів; **або**
+- згенеруйте YAML одним рядком у терміналі (підставте свої поля):
+  ```bash
+  for i in $(seq 1 20); do printf '        - insert:\n            tableName: books\n            columns:\n              - column: {name: id, valueNumeric: %s}\n              - column: {name: title, value: "Книга %s"}\n              - column: {name: author, value: "Автор %s"}\n              - column: {name: price, valueNumeric: %s.00}\n' "$i" "$i" "$i" "$((100 + i * 20))"; done
+  ```
+  Вивід вставте у `changes:` вашого changeSet.
+
+**ПІДКАЗКА — зсув лічильника id.** Якщо задаєте `id` явно, наприкінці changeSet зсуньте
+лічильник автоінкремента на `(останній id + 1)`, щоб перший запис через `POST` не отримав
+уже зайнятий `id` (напр. після 20 записів):
+```yaml
+        - sql:
+            sql: "ALTER TABLE books ALTER COLUMN id RESTART WITH 21"
+```
+
+**ПІДКАЗКА — колекції.** Якщо у вашій сутності є `@ElementCollection` (напр. список тегів або
+зображень), для кожного запису додайте й рядки у відповідну таблицю колекції (з тим самим
+`product_id`/`book_id` та `position`) — як на занятті для `product_images`.
 
 ## Крок 6. Перевірити на чистій базі
 
@@ -125,8 +146,9 @@ docker exec -it <ваш-postgres> psql -U <user> -d <db> \
 
 ## Крок 7. Додати другий changeSet і дослідити контрольну суму
 
-1. Додайте окремий changeSet (новий `id`), що вставляє ще 2–3 записи; перезапустіть —
-   застосується лише він, старі пропустяться.
+1. Додайте окремий changeSet (новий `id` changeSet'а), що вставляє ще 2–3 записи
+   (з наступними вільними `id` рядків і новим `RESTART WITH`); перезапустіть — застосується
+   лише він, старі пропустяться.
 2. Спробуйте **змінити вже застосований** changeSet (напр. правку в seed) і перезапустити.
    Опишіть у README, що станеться (помилка невідповідності контрольної суми checksum) і
    чому так: застосовані зміни редагувати не можна — лише додавати нові.
@@ -147,6 +169,10 @@ PageDto<BookCardDto> page(Pageable pageable) { /* делегувати в сер
 ```
 Назовні краще віддавати власний вузький `PageDto` (content + page/size/totalElements/totalPages),
 а не Spring-тип `Page` цілком. Перевірте: `GET /api/books/page?size=2&sort=price,desc`.
+
+Щоб пагінація була помітна, потрібно більше записів, ніж розмір сторінки. Якщо на Кроці 5 ви
+вже зробили 15–30 записів — цього досить. Якщо ні — додайте їх **окремим** seed-changeSet'ом
+(не правкою вже застосованого; див. підказку про генерацію YAML у Кроці 5).
 
 ---
 

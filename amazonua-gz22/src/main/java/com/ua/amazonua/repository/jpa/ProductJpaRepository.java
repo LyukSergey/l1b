@@ -82,12 +82,21 @@ public interface ProductJpaRepository extends JpaRepository<Product, Long> {
                              Pageable pageable);
 
     /**
-     * Заняття 2/2 (ОГЛЯДОВО): читання SQL-подання (VIEW) products_discounted через
-     * НАТИВНИЙ запит. Подання створює міграція Liquibase; тут ми лише читаємо його як
+     * Заняття 2/2 (ОГЛЯДОВО): читання SQL-view (VIEW) products_discounted через
+     * НАТИВНИЙ запит. View створює міграція Liquibase; тут ми лише читаємо його як
      * звичайну таблицю. nativeQuery=true означає «це справжній SQL, не JPQL».
      */
-    @Query(value = "SELECT id, name, price FROM products_discounted ORDER BY price", nativeQuery = true)
+    @Query(value = "SELECT id, name, price, image_url FROM products_discounted ORDER BY price", nativeQuery = true)
     List<Object[]> findDiscountedView();
+
+    /**
+     * Заняття 2/2: ПАГІНОВАНЕ читання того самого view. Для нативного запиту з {@link Page}
+     * обов'язковий окремий {@code countQuery}. Кожен рядок — Object[] {id, name, price, image_url}.
+     */
+    @Query(value = "SELECT id, name, price, image_url FROM products_discounted",
+            countQuery = "SELECT count(*) FROM products_discounted",
+            nativeQuery = true)
+    Page<Object[]> findDiscountedViewPage(Pageable pageable);
 
     /**
      * Заняття 2/2 (ОГЛЯДОВО): виклик збереженої ФУНКЦІЇ count_products_by_category(text),

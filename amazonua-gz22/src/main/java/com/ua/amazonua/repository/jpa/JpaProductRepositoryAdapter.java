@@ -65,13 +65,24 @@ public class JpaProductRepositoryAdapter implements ProductRepository {
 
     @Override
     public List<DiscountedRow> findDiscounted() {
-        // кожен рядок подання приходить як Object[] {id, name, price}; мапимо у вузький record
+        // кожен рядок view приходить як Object[] {id, name, price, image_url}; мапимо у record
         return jpa.findDiscountedView().stream()
-                .map(r -> new DiscountedRow(
-                        ((Number) r[0]).longValue(),
-                        (String) r[1],
-                        (BigDecimal) r[2]))
+                .map(JpaProductRepositoryAdapter::toDiscountedRow)
                 .toList();
+    }
+
+    @Override
+    public Page<DiscountedRow> findDiscountedPage(Pageable pageable) {
+        // Page<Object[]> → Page<DiscountedRow> (map зберігає метадані сторінки)
+        return jpa.findDiscountedViewPage(pageable).map(JpaProductRepositoryAdapter::toDiscountedRow);
+    }
+
+    private static DiscountedRow toDiscountedRow(Object[] r) {
+        return new DiscountedRow(
+                ((Number) r[0]).longValue(),
+                (String) r[1],
+                (BigDecimal) r[2],
+                (String) r[3]);
     }
 
     @Override

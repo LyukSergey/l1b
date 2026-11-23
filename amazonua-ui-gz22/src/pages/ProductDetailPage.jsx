@@ -2,23 +2,31 @@ import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { fetchProduct } from '../api.js'
 import Lightbox from '../components/Lightbox.jsx'
+import ProductFormModal from '../components/ProductFormModal.jsx'
 
 // Сторінка одного товару: галерея фото + деталі + характеристики.
-// Клік на велике фото → збільшення (лайтбокс).
+// Клік на велике фото → збільшення (лайтбокс). Редагування (олівець) — тут,
+// на сторінці деталей (а не з картки у списку).
 export default function ProductDetailPage() {
   const { id } = useParams()
   const [product, setProduct] = useState(null)
   const [error, setError] = useState(null)
   const [activeImage, setActiveImage] = useState(null) // яке фото показано великим
   const [zoomed, setZoomed] = useState(false)          // чи відкрито лайтбокс
+  const [editing, setEditing] = useState(false)        // чи відкрито модалку редагування
 
-  useEffect(() => {
+  // завантажити (або перезавантажити) товар із сервера
+  const load = () =>
     fetchProduct(id)
       .then((p) => {
         setProduct(p)
         setActiveImage(p.imageUrl)
       })
       .catch((e) => setError(e.message))
+
+  useEffect(() => {
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id])
 
   if (error) {
@@ -58,7 +66,11 @@ export default function ProductDetailPage() {
         </div>
 
         <div className="detail-info">
-          <h1>{product.name}</h1>
+          <div className="detail-title">
+            <h1>{product.name}</h1>
+            <button className="detail-edit" title="Редагувати"
+                    onClick={() => setEditing(true)}>✎</button>
+          </div>
           <div className="detail-price">{formatPrice(product.price)} грн</div>
           <p className="detail-description">{product.description}</p>
 
@@ -78,6 +90,14 @@ export default function ProductDetailPage() {
       </div>
 
       {zoomed && <Lightbox src={activeImage} alt={product.name} onClose={() => setZoomed(false)} />}
+
+      {editing && (
+        <ProductFormModal
+          productId={product.id}
+          onClose={() => setEditing(false)}
+          onSaved={() => { setEditing(false); load() }}
+        />
+      )}
     </div>
   )
 }

@@ -77,10 +77,26 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductCardDto> findDiscounted() {
-        // рядок подання (id, name, price) → картка (imageUrl немає — подання його не містить)
+        // рядок view (id, name, price, image_url) → картка
         return repository.findDiscounted().stream()
-                .map(r -> new ProductCardDto(r.id(), r.name(), r.price(), null))
+                .map(r -> new ProductCardDto(r.id(), r.name(), r.price(), r.imageUrl()))
                 .toList();
+    }
+
+    @Override
+    public PageDto<ProductCardDto> findDiscountedPage(Pageable pageable) {
+        // без сортування пагінація по поданню недетермінована — за замовчуванням упорядковуємо за ціною
+        Pageable effective = pageable.getSort().isSorted()
+                ? pageable
+                : org.springframework.data.domain.PageRequest.of(
+                        pageable.getPageNumber(), pageable.getPageSize(),
+                        org.springframework.data.domain.Sort.by("price").ascending());
+        var page = repository.findDiscountedPage(effective);
+        List<ProductCardDto> content = page.getContent().stream()
+                .map(r -> new ProductCardDto(r.id(), r.name(), r.price(), r.imageUrl()))
+                .toList();
+        return new PageDto<>(content, page.getNumber(), page.getSize(),
+                page.getTotalElements(), page.getTotalPages());
     }
 
     @Override

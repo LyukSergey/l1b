@@ -1,21 +1,6 @@
 // Тонкий клієнт до нашого Spring Boot API.
 // Шляхи відносні ('/api/...') — Vite-проксі перенаправить їх на :8080 (див. vite.config.js).
 
-// Заняття 2/1: перелік із фільтрами. filters = { category, minPrice, maxPrice, q }.
-// Порожні значення не додаємо в query string.
-export async function fetchProducts(filters = {}) {
-  const params = new URLSearchParams()
-  if (filters.category) params.set('category', filters.category)
-  if (filters.minPrice) params.set('minPrice', filters.minPrice)
-  if (filters.maxPrice) params.set('maxPrice', filters.maxPrice)
-  if (filters.q) params.set('q', filters.q)
-
-  const query = params.toString()
-  const res = await fetch('/api/products' + (query ? '?' + query : ''))
-  if (!res.ok) throw new Error('Не вдалося завантажити список товарів')
-  return res.json()
-}
-
 // Заняття 2/2: ПАГІНОВАНИЙ перелік. Повертає PageDto { content, page, size, totalElements, totalPages }.
 // filters = { category, minPrice, maxPrice, q }; page з 0; sort — напр. 'price,asc'.
 export async function fetchProductsPage(filters = {}, page = 0, size = 8, sort = '') {
@@ -37,6 +22,21 @@ export async function fetchProductsPage(filters = {}, page = 0, size = 8, sort =
 export async function fetchCategories() {
   const res = await fetch('/api/products/categories')
   if (!res.ok) throw new Error('Не вдалося завантажити категорії')
+  return res.json()
+}
+
+// Товари зі знижкою — читання SQL-подання products_discounted (банер «Сьогодні знижки»).
+export async function fetchDiscounted() {
+  const res = await fetch('/api/products/discounted')
+  if (!res.ok) throw new Error('Не вдалося завантажити знижки')
+  return res.json()
+}
+
+// Заняття 2/2: ПАГІНОВАНІ товари зі знижкою. Повертає PageDto.
+export async function fetchDiscountedPage(page = 0, size = 8) {
+  const params = new URLSearchParams({ page, size })
+  const res = await fetch('/api/products/discounted/page?' + params.toString())
+  if (!res.ok) throw new Error('Не вдалося завантажити знижки')
   return res.json()
 }
 

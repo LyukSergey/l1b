@@ -1,0 +1,14 @@
+# Зміна 005 (оглядово) — додати image_url до view products_discounted.
+#
+# View з 003 віддавав лише id, name, price, тому картки знижок на UI були без фото.
+# Вже застосований changeSet правити не можна (checksum), тому ПЕРЕСТВОРЮЄМО view
+# новим changeSet: createView з replaceIfExists виконує CREATE OR REPLACE VIEW.
+databaseChangeLog:
+  - changeSet:
+      id: 005-discounted-view-with-image
+      author: amazonua
+      changes:
+        - createView:
+            viewName: products_discounted
+            replaceIfExists: true
+            selectQuery: "SELECT id, name, price, image_url FROM products WHERE price < 1500"

@@ -1,0 +1,625 @@
+# Зміна 006 (ще товари для повнішої пагінації). ОКРЕМИЙ changeSet (не правка попередніх).
+# +28 товарів різних категорій/цін → разом ~40, тобто кілька сторінок за розміру 8.
+databaseChangeLog:
+  - changeSet:
+      id: 006-seed-even-more-products
+      author: amazonua
+      changes:
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 13}
+              - column: {name: name, value: "Клавіатура SlimType"}
+              - column: {name: price, valueNumeric: 690.00}
+              - column: {name: image_url, value: "/images/keyboard.svg"}
+              - column: {name: description, value: "Клавіатура SlimType — товар категорії Периферія."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 13}}
+              - {column: {name: image_url, value: "/images/keyboard.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 13}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Периферія"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 14}
+              - column: {name: name, value: "Миша SilentClick"}
+              - column: {name: price, valueNumeric: 350.00}
+              - column: {name: image_url, value: "/images/keyboard.svg"}
+              - column: {name: description, value: "Миша SilentClick — товар категорії Периферія."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 14}}
+              - {column: {name: image_url, value: "/images/keyboard.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 14}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Периферія"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 15}
+              - column: {name: name, value: "Тачпад ProTouch"}
+              - column: {name: price, valueNumeric: 1250.00}
+              - column: {name: image_url, value: "/images/keyboard.svg"}
+              - column: {name: description, value: "Тачпад ProTouch — товар категорії Периферія."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 15}}
+              - {column: {name: image_url, value: "/images/keyboard.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 15}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Периферія"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 16}
+              - column: {name: name, value: "Геймпад ArcadeOne"}
+              - column: {name: price, valueNumeric: 990.00}
+              - column: {name: image_url, value: "/images/keyboard.svg"}
+              - column: {name: description, value: "Геймпад ArcadeOne — товар категорії Периферія."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 16}}
+              - {column: {name: image_url, value: "/images/keyboard.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 16}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Периферія"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 17}
+              - column: {name: name, value: "Веб-камера ClearView"}
+              - column: {name: price, valueNumeric: 1790.00}
+              - column: {name: image_url, value: "/images/keyboard.svg"}
+              - column: {name: description, value: "Веб-камера ClearView — товар категорії Периферія."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 17}}
+              - {column: {name: image_url, value: "/images/keyboard.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 17}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Периферія"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 18}
+              - column: {name: name, value: "Навушники StudioMax"}
+              - column: {name: price, valueNumeric: 2490.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Навушники StudioMax — товар категорії Аудіо."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 18}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 18}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аудіо"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 19}
+              - column: {name: name, value: "Мікрофон VoicePro"}
+              - column: {name: price, valueNumeric: 1590.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Мікрофон VoicePro — товар категорії Аудіо."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 19}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 19}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аудіо"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 20}
+              - column: {name: name, value: "Саундбар CinemaLite"}
+              - column: {name: price, valueNumeric: 3290.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Саундбар CinemaLite — товар категорії Аудіо."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 20}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 20}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аудіо"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 21}
+              - column: {name: name, value: "Навушники SportBeat"}
+              - column: {name: price, valueNumeric: 850.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Навушники SportBeat — товар категорії Аудіо."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 21}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 21}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аудіо"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 22}
+              - column: {name: name, value: "Колонка RoomFill"}
+              - column: {name: price, valueNumeric: 1290.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Колонка RoomFill — товар категорії Аудіо."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 22}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 22}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аудіо"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 23}
+              - column: {name: name, value: "Монітор EcoView 22"}
+              - column: {name: price, valueNumeric: 3990.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Монітор EcoView 22 — товар категорії Монітори."}
+              - column: {name: category, value: "Монітори"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 23}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 23}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Монітори"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 24}
+              - column: {name: name, value: "Монітор GameFast 27"}
+              - column: {name: price, valueNumeric: 8990.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Монітор GameFast 27 — товар категорії Монітори."}
+              - column: {name: category, value: "Монітори"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 24}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 24}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Монітори"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 25}
+              - column: {name: name, value: "Монітор ProDesign 32"}
+              - column: {name: price, valueNumeric: 15990.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Монітор ProDesign 32 — товар категорії Монітори."}
+              - column: {name: category, value: "Монітори"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 25}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 25}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Монітори"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 26}
+              - column: {name: name, value: "Монітор Portable 15"}
+              - column: {name: price, valueNumeric: 3290.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Монітор Portable 15 — товар категорії Монітори."}
+              - column: {name: category, value: "Монітори"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 26}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 26}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Монітори"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 27}
+              - column: {name: name, value: "Підставка для ноутбука"}
+              - column: {name: price, valueNumeric: 1190.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Підставка для ноутбука — товар категорії Аксесуари."}
+              - column: {name: category, value: "Аксесуари"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 27}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 27}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аксесуари"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 28}
+              - column: {name: name, value: "USB-хаб 7-в-1"}
+              - column: {name: price, valueNumeric: 790.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "USB-хаб 7-в-1 — товар категорії Аксесуари."}
+              - column: {name: category, value: "Аксесуари"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 28}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 28}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аксесуари"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 29}
+              - column: {name: name, value: "Чохол для планшета"}
+              - column: {name: price, valueNumeric: 450.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Чохол для планшета — товар категорії Аксесуари."}
+              - column: {name: category, value: "Аксесуари"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 29}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 29}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аксесуари"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 30}
+              - column: {name: name, value: "Органайзер кабелів"}
+              - column: {name: price, valueNumeric: 290.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Органайзер кабелів — товар категорії Аксесуари."}
+              - column: {name: category, value: "Аксесуари"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 30}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 30}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аксесуари"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 31}
+              - column: {name: name, value: "Лампа настільна LED"}
+              - column: {name: price, valueNumeric: 560.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Лампа настільна LED — товар категорії Аксесуари."}
+              - column: {name: category, value: "Аксесуари"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 31}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 31}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Аксесуари"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 32}
+              - column: {name: name, value: "Кабель USB-C 2м"}
+              - column: {name: price, valueNumeric: 250.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Кабель USB-C 2м — товар категорії Кабелі."}
+              - column: {name: category, value: "Кабелі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 32}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 32}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Кабелі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 33}
+              - column: {name: name, value: "Кабель HDMI 2.1"}
+              - column: {name: price, valueNumeric: 390.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Кабель HDMI 2.1 — товар категорії Кабелі."}
+              - column: {name: category, value: "Кабелі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 33}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 33}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Кабелі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 34}
+              - column: {name: name, value: "Кабель DisplayPort"}
+              - column: {name: price, valueNumeric: 420.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Кабель DisplayPort — товар категорії Кабелі."}
+              - column: {name: category, value: "Кабелі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 34}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 34}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Кабелі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 35}
+              - column: {name: name, value: "Подовжувач Ethernet 5м"}
+              - column: {name: price, valueNumeric: 340.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Подовжувач Ethernet 5м — товар категорії Кабелі."}
+              - column: {name: category, value: "Кабелі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 35}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 35}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Кабелі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 36}
+              - column: {name: name, value: "SSD NVMe 1TB"}
+              - column: {name: price, valueNumeric: 2990.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "SSD NVMe 1TB — товар категорії Накопичувачі."}
+              - column: {name: category, value: "Накопичувачі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 36}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 36}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Накопичувачі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 37}
+              - column: {name: name, value: "Флешка 128GB"}
+              - column: {name: price, valueNumeric: 350.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Флешка 128GB — товар категорії Накопичувачі."}
+              - column: {name: category, value: "Накопичувачі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 37}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 37}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Накопичувачі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 38}
+              - column: {name: name, value: "Зовнішній HDD 2TB"}
+              - column: {name: price, valueNumeric: 3490.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Зовнішній HDD 2TB — товар категорії Накопичувачі."}
+              - column: {name: category, value: "Накопичувачі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 38}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 38}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Накопичувачі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 39}
+              - column: {name: name, value: "Картка microSD 256GB"}
+              - column: {name: price, valueNumeric: 890.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Картка microSD 256GB — товар категорії Накопичувачі."}
+              - column: {name: category, value: "Накопичувачі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 39}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 39}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Накопичувачі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 40}
+              - column: {name: name, value: "Докстанція SSD"}
+              - column: {name: price, valueNumeric: 2190.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Докстанція SSD — товар категорії Накопичувачі."}
+              - column: {name: category, value: "Накопичувачі"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 40}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 40}}
+              - {column: {name: char_name, value: "Категорія"}}
+              - {column: {name: char_value, value: "Накопичувачі"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - sql:
+            sql: "ALTER TABLE products ALTER COLUMN id RESTART WITH 41"

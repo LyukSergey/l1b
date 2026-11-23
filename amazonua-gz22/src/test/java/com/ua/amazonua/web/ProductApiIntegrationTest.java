@@ -263,14 +263,30 @@ class ProductApiIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void discountedView_returnsProductsBelowThreshold() throws Exception {
-        // подання products_discounted: price < 1500
+        // view products_discounted: price < 1500
         givenProduct("Дешева миша", "Периферія", new BigDecimal("749.00"));
         givenProduct("Дорогий монітор", "Монітори", new BigDecimal("8499.00"));
 
         mockMvc.perform(get("/api/products/discounted"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].name").value("Дешева миша"));
+                .andExpect(jsonPath("$[0].name").value("Дешева миша"))
+                .andExpect(jsonPath("$[0].imageUrl").value("/images/mouse.svg"));
+    }
+
+    @Test
+    void discountedPage_paginatesView() throws Exception {
+        // 4 дешевих (< 1500) + 1 дорогий → у поданні 4
+        for (int i = 1; i <= 4; i++) {
+            givenProduct("Акція " + i, "Акції", new BigDecimal(i * 100));
+        }
+        givenProduct("Дорогий", "Монітори", new BigDecimal("9999.00"));
+
+        mockMvc.perform(get("/api/products/discounted/page").param("size", "2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.totalElements").value(4))
+                .andExpect(jsonPath("$.totalPages").value(2));
     }
 
     @Test

@@ -84,12 +84,18 @@ public class ProductController {
     }
 
     /**
-     * Заняття 2/2 (оглядово): перелік товарів зі знижкою — читання SQL-подання (VIEW).
-     * Подання створює міграція Liquibase; застосунок лише читає його.
+     * Заняття 2/2 (оглядово): перелік товарів зі знижкою — читання SQL-view (VIEW).
+     * View створює міграція Liquibase; застосунок лише читає його.
      */
     @GetMapping("/discounted")
     public List<ProductCardDto> discounted() {
         return productService.findDiscounted();
+    }
+
+    /** Заняття 2/2: ПАГІНОВАНИЙ перелік товарів зі знижкою (?page=&size=&sort=). */
+    @GetMapping("/discounted/page")
+    public PageDto<ProductCardDto> discountedPage(Pageable pageable) {
+        return productService.findDiscountedPage(pageable);
     }
 
     /**

@@ -23,7 +23,7 @@ PostgreSQL через Spring Data JPA, доменною моделлю як `@En
 5. пояснити режим `ddl-auto: validate` і його роль поряд з міграціями;
 6. реалізувати пагінацію і сортування переліку (`Pageable`, `Page<T>`, параметри
    `?page=&size=&sort=`) і пояснити, навіщо вони;
-7. мати уявлення (оглядово) про SQL-подання (VIEW) і збережену функцію та їх створення
+7. мати уявлення (оглядово) про SQL-view (VIEW) і збережену функцію та їх створення
    міграцією Liquibase.
 
 Матеріал спирається на офіційну документацію Spring Boot, Spring Data JPA, Liquibase та
@@ -76,8 +76,8 @@ Liquibase виконує ще не застосовані зміни.
 
 ### 3.1. Залежність
 
-Для автоматичного запуску міграцій Liquibase під час старту до класного шляху додають
-залежність `org.liquibase:liquibase-core` [4]:
+Для автоматичного запуску міграцій Liquibase під час старту до класового шляху (classpath)
+додають залежність `org.liquibase:liquibase-core` [4]:
 
 ```xml
 <dependency>
@@ -139,10 +139,24 @@ spring:
 ```yaml
 databaseChangeLog:
   - include:
-      file: db/changelog/changes/001-create-products.yaml
+      file: db/changelog/changes/001-create-products.yaml   # таблиці
   - include:
-      file: db/changelog/changes/002-seed-products.yaml
+      file: db/changelog/changes/002-seed-products.yaml      # перші 4 товари
+  - include:
+      file: db/changelog/changes/003-view-and-function.yaml  # VIEW + функція (оглядово)
+  - include:
+      file: db/changelog/changes/004-seed-more-products.yaml # ще 8 товарів
+  - include:
+      file: db/changelog/changes/005-discounted-view-with-image.yaml # VIEW + image_url
+  - include:
+      file: db/changelog/changes/006-seed-even-more-products.yaml # +28 товарів (разом ~40)
+  - include:
+      file: db/changelog/changes/007-sync-images-with-category.yaml # фото ← категорія (UPDATE)
 ```
+
+Нові дані додають **окремим** changeSet'ом, а не правкою вже застосованого. Тому товарів
+від початку близько 40 (4 з `002` + 8 з `004` + 28 з `006`) — цього досить, щоб пагінація
+працювала на кілька сторінок. Чому саме новий файл, а не редагування `002` — див. розділ 6.
 
 ---
 
@@ -220,6 +234,22 @@ databaseChangeLog:
 `ProductSeeder` у проєкті лишається (він потрібен для профілю зберігання в пам'яті та як
 запобіжник), але на PostgreSQL він побачить, що товари вже є, і нічого не додасть.
 
+**Додати ще даних — лише новим changeSet'ом.** Щоб пагінація була помітна одразу, потрібно
+більше товарів. Але редагувати вже застосований `002` НЕ можна: Liquibase зберігає контрольну
+суму (checksum) кожного застосованого changeSet і при зміні вмісту зупинить старт із помилкою
+невідповідності. Тому додаткові товари винесено в окремі seed-міграції:
+[`004-seed-more-products.yaml`](../../amazonua-gz22/src/main/resources/db/changelog/changes/004-seed-more-products.yaml)
+(id 5..12) і
+[`006-seed-even-more-products.yaml`](../../amazonua-gz22/src/main/resources/db/changelog/changes/006-seed-even-more-products.yaml)
+(id 13..40) — кожна наприкінці зсуває лічильник (`RESTART WITH …`). Разом близько 40 товарів.
+Правило загальне: **застосовані зміни не правлять — додають нові.**
+
+Міграцією можна змінювати не лише схему, а й **дані**. Приклад —
+[`007-sync-images-with-category.yaml`](../../amazonua-gz22/src/main/resources/db/changelog/changes/007-sync-images-with-category.yaml):
+кількома `UPDATE` проставляє кожному товарові фото, що відповідає його категорії
+(`/images/categories/<категорія>.svg`), щоб картки у групі не показували випадкову картинку.
+Це теж окремий changeSet (ранні seed-міграції не чіпаємо — checksum).
+
 ---
 
 ## 7. Як це працює при старті
@@ -262,7 +292,7 @@ JPA пропонує два типи [5]:
 |---|---|---|
 | `page` | номер сторінки, з 0 | 0 |
 | `size` | розмір сторінки | 20 |
-| `sort` | поле і напрям, формат `property,asc\|desc` | без сортування |
+| `sort` | поле і напрям, формат `property,asc` або `property,desc` | без сортування |
 
 ```
 GET /api/products/page?page=1&size=8&sort=price,desc
@@ -299,38 +329,55 @@ public PageDto<ProductCardDto> page(/* ...ті самі фільтри... */ Pag
 
 ---
 
-## 9. SQL-подання (VIEW) і збережена функція — оглядово
+## 9. SQL-view (VIEW) і збережена функція — оглядово
 
 Це **додаткова, оглядова** частина: показати, що міграцією Liquibase можна створювати не
-лише таблиці, а й подання та функції, і читати їх із застосунку нативним SQL. Для новачка —
+лише таблиці, а й view та функції, і читати їх із застосунку нативним SQL. Для новачка —
 рідковживане; детально не заглиблюємось.
 
-- **SQL-подання (VIEW)** — за визначенням, це «запит, якому дано ім'я й який можна
+- **SQL-view (VIEW)** — за визначенням, це «запит, якому дано ім'я й який можна
   використовувати як таблицю» [7]. Міграція
   [`003-view-and-function.yaml`](../../amazonua-gz22/src/main/resources/db/changelog/changes/003-view-and-function.yaml)
-  створює подання `products_discounted` (умовно — товари, дешевші за 1500). Застосунок читає
+  створює view `products_discounted` (умовно — товари, дешевші за 1500). Застосунок читає
   його нативним запитом (`@Query(..., nativeQuery = true)`): `GET /api/products/discounted`.
+  Пізніша міграція
+  [`005-discounted-view-with-image.yaml`](../../amazonua-gz22/src/main/resources/db/changelog/changes/005-discounted-view-with-image.yaml)
+  **перестворює** цей view (`createView` з `replaceIfExists` → `CREATE OR REPLACE VIEW`),
+  додавши колонку `image_url` — щоб картки знижок на UI мали фото. Важливо: вже застосований
+  `003` не правлять (checksum) — view оновлюють **новим** changeSet'ом.
 - **Збережена функція** — іменований код у самій БД, що повертає значення [8]. Та сама
   міграція створює `count_products_by_category(text)`; застосунок викликає її нативним
   запитом: `GET /api/products/count?category=...`.
 
 Різниця з попереднім матеріалом: тут **обчислення виконує сама БД**, а застосунок лише читає
-результат. Коли логіку доречно тримати в БД (подання для складного звіту, функція біля
+результат. Коли логіку доречно тримати в БД (view для складного звіту, функція біля
 даних) — це корисно; коли ні — лишати в сервісі. На цьому занятті — лише ознайомлення.
 
 ---
 
 ## 10. Клієнтська частина
 
-У переліку товарів (`amazonua-ui-gz22`) додано:
+Клієнт (`amazonua-ui-gz22`) переоформлено у вітрину з кількома сторінками:
 
-- **пагінатор** під списком («← Попередня», «Сторінка X з Y», «Наступна →») — ходить
-  сторінками через `GET /api/products/page`;
-- **випадаючий список сортування** (ціна ↑/↓, назва А-Я/Я-А) — передає `?sort=`.
+- **Головна (`/`)** — банер «Сьогодні знижки» (веде на сторінку знижок) і **плашки груп
+  (категорій)** з `GET /api/products/categories`. Щойно в пошуку з'являється текст, замість
+  плашок одразу показуються **картки знайдених товарів** (`GET /api/products/page?q=...`,
+  усі категорії).
+- **Сторінка знижок (`/discounts`)** — картки товарів із **пагінацією** (`GET
+  /api/products/discounted/page`). Тут пагінація йде поверх SQL-view: репозиторій читає
+  `products_discounted` методом, що приймає `Pageable` і повертає `Page` (із окремим
+  `countQuery`, бо запит нативний). Без сортування порядок по view недетермінований, тому
+  сервіс за замовчуванням упорядковує за ціною.
+- **Сторінка групи (`/category/:name`)** — товари однієї категорії картками, з **пагінацією**
+  («← Попередня», «Сторінка X з Y», «Наступна →») і **сортуванням** (ціна ↑/↓, назва А-Я/Я-А),
+  усе через `GET /api/products/page?category=...&sort=...`.
+- **Сторінка товару (`/products/:id`)** — деталі; **редагування (`✎`) саме тут**, біля назви
+  (раніше олівець був на картці переліку). Кнопка відкриває форму `ProductFormModal` у режимі
+  редагування; після збереження сторінка перечитує товар.
 
-Будь-яка зміна фільтра, пошуку чи сортування повертає на першу сторінку. Клієнт отримує
-`PageDto` і показує вміст сторінки та її номер із загальної кількості. Принцип взаємодії —
-той самий (відносні шляхи + проксі середовища розробки).
+Сітку карток винесено в спільний компонент `ProductGrid` (перевикористовується на сторінках
+категорії, знижок і в результатах пошуку). Принцип взаємодії з API — той самий (відносні шляхи
++ проксі середовища розробки); пагінований перелік повертає `PageDto`.
 
 ---
 
@@ -352,7 +399,7 @@ public PageDto<ProductCardDto> page(/* ...ті самі фільтри... */ Pag
 **Репозиторний інтеграційний (`@SpringBootTest`, реальний Postgres)** —
 [`ProductRepositoryIntegrationTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/repository/ProductRepositoryIntegrationTest.java):
 перевіряє доменний `ProductRepository` напряму — `searchPage` (пагінація/сортування/фільтр),
-читання подання та виклик функції.
+читання view та виклик функції.
 
 **Міграції** —
 [`LiquibaseMigrationIntegrationTest`](../../amazonua-gz22/src/test/java/com/ua/amazonua/LiquibaseMigrationIntegrationTest.java):

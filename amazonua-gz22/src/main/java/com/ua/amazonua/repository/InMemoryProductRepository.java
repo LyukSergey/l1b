@@ -85,7 +85,13 @@ public class InMemoryProductRepository implements ProductRepository {
     public List<DiscountedRow> findDiscounted() {
         // VIEW існує лише в PostgreSQL; у пам'яті подань немає
         throw new UnsupportedOperationException(
-                "SQL-подання products_discounted доступне лише на PostgreSQL, не в in-memory сховищі");
+                "SQL-view products_discounted доступний лише на PostgreSQL, не в in-memory сховищі");
+    }
+
+    @Override
+    public Page<DiscountedRow> findDiscountedPage(Pageable pageable) {
+        throw new UnsupportedOperationException(
+                "SQL-view products_discounted доступний лише на PostgreSQL, не в in-memory сховищі");
     }
 
     @Override

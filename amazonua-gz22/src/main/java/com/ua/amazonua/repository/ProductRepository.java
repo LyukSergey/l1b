@@ -43,10 +43,13 @@ public interface ProductRepository {
     List<String> findCategories();
 
     /**
-     * Заняття 2/2 (ОГЛЯДОВО): рядки SQL-подання products_discounted (id, name, price).
-     * Подання — збережений іменований запит у БД; читаємо його як таблицю.
+     * Заняття 2/2 (ОГЛЯДОВО): рядки SQL-view products_discounted (id, name, price, image_url).
+     * View — збережений іменований запит у БД; читаємо його як таблицю.
      */
     List<DiscountedRow> findDiscounted();
+
+    /** Заняття 2/2: ПАГІНОВАНЕ читання view «товари зі знижкою». */
+    Page<DiscountedRow> findDiscountedPage(Pageable pageable);
 
     /**
      * Заняття 2/2 (ОГЛЯДОВО): результат збереженої функції count_products_by_category.
@@ -54,8 +57,8 @@ public interface ProductRepository {
      */
     long countByCategoryFunction(String category);
 
-    /** Рядок подання «товари зі знижкою» (мінімальний зріз для демонстрації VIEW). */
-    record DiscountedRow(Long id, String name, BigDecimal price) {
+    /** Рядок view «товари зі знижкою» (зріз для демонстрації VIEW + фото для картки). */
+    record DiscountedRow(Long id, String name, BigDecimal price, String imageUrl) {
     }
 
     Optional<Product> findById(Long id);

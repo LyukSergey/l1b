@@ -22,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * Перевіряє доменний {@link ProductRepository} напряму (бін — реальний JPA-адаптер,
  * нічого не мокано): пагінацію/сортування ({@code searchPage}) і оглядові методи поверх
- * SQL-подання та збереженої функції. АВТОНОМІЯ: {@code @BeforeEach} чистить сховище, кожен
+ * SQL-view та збереженої функції. АВТОНОМІЯ: {@code @BeforeEach} чистить сховище, кожен
  * тест сам готує потрібні записи через {@link #givenProduct}.
  */
 @SpringBootTest
@@ -85,7 +85,7 @@ class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void findDiscounted_readsViewBelowThreshold() {
-        // подання products_discounted: price < 1500
+        // view products_discounted: price < 1500
         givenProduct("Дешева миша", "Периферія", "749.00");
         givenProduct("Дорогий монітор", "Монітори", "8499.00");
 
@@ -93,6 +93,21 @@ class ProductRepositoryIntegrationTest extends AbstractIntegrationTest {
 
         assertThat(rows).hasSize(1);
         assertThat(rows.get(0).name()).isEqualTo("Дешева миша");
+        assertThat(rows.get(0).imageUrl()).isEqualTo("/images/x.svg");  // view тепер віддає й фото
+    }
+
+    @Test
+    void findDiscountedPage_returnsSliceOfView() {
+        // 5 дешевих (< 1500) + 1 дорогий → view має 5 рядків
+        for (int i = 1; i <= 5; i++) givenProduct("Знижка " + i, "Періферія", String.valueOf(i * 100));
+        givenProduct("Дорогий", "Монітори", "9999.00");
+
+        Page<ProductRepository.DiscountedRow> page =
+                repository.findDiscountedPage(PageRequest.of(0, 2, Sort.by("price").ascending()));
+
+        assertThat(page.getContent()).hasSize(2);
+        assertThat(page.getTotalElements()).isEqualTo(5);
+        assertThat(page.getTotalPages()).isEqualTo(3);
     }
 
     @Test

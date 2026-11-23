@@ -40,8 +40,11 @@ public interface ProductService {
     /** Список унікальних категорій (для випадаючого списку фільтра). */
     List<String> findCategories();
 
-    /** Заняття 2/2 (оглядово): рядки SQL-подання «товари зі знижкою». */
+    /** Заняття 2/2 (оглядово): рядки SQL-view «товари зі знижкою». */
     List<ProductCardDto> findDiscounted();
+
+    /** Заняття 2/2: ПАГІНОВАНИЙ перелік товарів зі знижкою (сторінка карток + метадані). */
+    PageDto<ProductCardDto> findDiscountedPage(Pageable pageable);
 
     /** Заняття 2/2 (оглядово): кількість товарів у категорії, порахована збереженою функцією. */
     long countByCategory(String category);

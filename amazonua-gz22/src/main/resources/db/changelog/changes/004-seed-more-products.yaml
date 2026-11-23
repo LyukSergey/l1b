@@ -1,0 +1,200 @@
+# Зміна 004 — додаткові стартові товари (щоб пагінація була помітна одразу).
+#
+# ОКРЕМИЙ changeSet, а НЕ правка 002: вже застосований changeSet редагувати не можна
+# (Liquibase звіряє контрольну суму й застосунок впаде). Правильний шлях додати дані —
+# новий changeSet. Разом із 002 (id 1..4) і пізнішим 006 (id 13..40) це дає ~40 товарів
+# → за розміру сторінки 8 пагінація працює на кілька сторінок.
+#
+# id 5..12 задаємо явно; наприкінці зсуваємо лічильник IDENTITY на 13.
+databaseChangeLog:
+  - changeSet:
+      id: 004-seed-more-products
+      author: amazonua
+      changes:
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 5}
+              - column: {name: name, value: "Ігрова мишка RapidClick"}
+              - column: {name: price, valueNumeric: 599.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Бюджетна дротова миша для щоденної роботи."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 5}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 5}}
+              - {column: {name: char_name, value: "Підключення"}}
+              - {column: {name: char_value, value: "USB"}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 6}
+              - column: {name: name, value: "Клавіатура OfficePro"}
+              - column: {name: price, valueNumeric: 890.00}
+              - column: {name: image_url, value: "/images/keyboard.svg"}
+              - column: {name: description, value: "Тиха мембранна клавіатура для офісу."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 6}}
+              - {column: {name: image_url, value: "/images/keyboard.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 6}}
+              - {column: {name: char_name, value: "Тип"}}
+              - {column: {name: char_value, value: "Мембранна"}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 7}
+              - column: {name: name, value: "Навушники BassLine"}
+              - column: {name: price, valueNumeric: 1100.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Провідні навушники з підсиленими низами."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 7}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 7}}
+              - {column: {name: char_name, value: "Тип"}}
+              - {column: {name: char_value, value: "Провідні"}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 8}
+              - column: {name: name, value: "Монітор OfficeView 24\""}
+              - column: {name: price, valueNumeric: 4299.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "24-дюймовий IPS-монітор Full HD для роботи."}
+              - column: {name: category, value: "Монітори"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 8}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 8}}
+              - {column: {name: char_name, value: "Діагональ"}}
+              - {column: {name: char_value, value: "24\""}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 9}
+              - column: {name: name, value: "Колонка SoundBox Mini"}
+              - column: {name: price, valueNumeric: 990.00}
+              - column: {name: image_url, value: "/images/headphones.svg"}
+              - column: {name: description, value: "Портативна Bluetooth-колонка з автономністю 12 годин."}
+              - column: {name: category, value: "Аудіо"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 9}}
+              - {column: {name: image_url, value: "/images/headphones.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 9}}
+              - {column: {name: char_name, value: "Інтерфейс"}}
+              - {column: {name: char_value, value: "Bluetooth 5.0"}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 10}
+              - column: {name: name, value: "Килимок для миші XL"}
+              - column: {name: price, valueNumeric: 299.00}
+              - column: {name: image_url, value: "/images/mouse.svg"}
+              - column: {name: description, value: "Великий тканинний килимок із прошитими краями."}
+              - column: {name: category, value: "Аксесуари"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 10}}
+              - {column: {name: image_url, value: "/images/mouse.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 10}}
+              - {column: {name: char_name, value: "Розмір"}}
+              - {column: {name: char_value, value: "900×400 мм"}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 11}
+              - column: {name: name, value: "Веб-камера StreamCam HD"}
+              - column: {name: price, valueNumeric: 1790.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "Веб-камера Full HD 1080p з автофокусом."}
+              - column: {name: category, value: "Периферія"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 11}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 11}}
+              - {column: {name: char_name, value: "Роздільність"}}
+              - {column: {name: char_value, value: "1080p"}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        - insert:
+            tableName: products
+            columns:
+              - column: {name: id, valueNumeric: 12}
+              - column: {name: name, value: "Монітор UltraWide 34\""}
+              - column: {name: price, valueNumeric: 12999.00}
+              - column: {name: image_url, value: "/images/monitor.svg"}
+              - column: {name: description, value: "34-дюймовий вигнутий UltraWide-монітор для роботи та ігор."}
+              - column: {name: category, value: "Монітори"}
+        - insert:
+            tableName: product_images
+            columns:
+              - {column: {name: product_id, valueNumeric: 12}}
+              - {column: {name: image_url, value: "/images/monitor.svg"}}
+              - {column: {name: position, valueNumeric: 0}}
+        - insert:
+            tableName: product_characteristics
+            columns:
+              - {column: {name: product_id, valueNumeric: 12}}
+              - {column: {name: char_name, value: "Діагональ"}}
+              - {column: {name: char_value, value: "34\""}}
+              - {column: {name: position, valueNumeric: 0}}
+
+        # Наступний згенерований id — після id=12.
+        - sql:
+            sql: "ALTER TABLE products ALTER COLUMN id RESTART WITH 13"
