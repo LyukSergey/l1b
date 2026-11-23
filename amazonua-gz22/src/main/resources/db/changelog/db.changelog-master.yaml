@@ -1,0 +1,15 @@
+# Головний набір змін Liquibase (master changelog).
+#
+# Заняття 2/2. Це ЄДИНА «точка входу» для міграцій: Spring Boot читає саме цей файл
+# (шлях за замовчуванням db/changelog/db.changelog-master.yaml) і застосовує все, що
+# сюди включено, у заданому порядку. Самі зміни винесено в окремі файли й підключено
+# через include — так історія змін лишається читабельною: один файл = одна зміна.
+#
+# Кожен застосований changeSet Liquibase фіксує в службовій таблиці DATABASECHANGELOG,
+# тому повторний запуск НЕ застосовує його вдруге. Таблиця DATABASECHANGELOGLOCK
+# не дає двом процесам мігрувати схему одночасно.
+databaseChangeLog:
+  - include:
+      file: db/changelog/changes/001-create-products.yaml
+  - include:
+      file: db/changelog/changes/002-seed-products.yaml

@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: amazonua
+
+  # Підключення до PostgreSQL (БД піднімається через docker-compose, див. docker-compose.yml).
+  # Значення можна перевизначити змінними оточення (напр. у docker-compose чи .env).
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/amazonua}
+    username: ${SPRING_DATASOURCE_USERNAME:amazonua}
+    password: ${SPRING_DATASOURCE_PASSWORD:amazonua}
+    driver-class-name: org.postgresql.Driver
+
+  # Заняття 2/2: схему БД тепер веде Liquibase (міграції), а не Hibernate.
+  # change-log — головний файл набору змін. Це шлях за замовчуванням, який Spring шукає
+  # й без цього рядка, тож він радше явний (документує розташування), ніж обов'язковий.
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+  jpa:
+    hibernate:
+      # Заняття 2/2: ddl-auto=validate — Hibernate БІЛЬШЕ НЕ створює/не змінює таблиці.
+      # Схему створює Liquibase; Hibernate лише ПЕРЕВІРЯЄ, що наявні таблиці відповідають
+      # сутностям (інакше застосунок не стартує). Так єдине джерело схеми — міграції.
+      # (На 2/1 тут було update — Hibernate сам генерував схему; у проді так не роблять.)
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+        # Зберігаємо час у БД в UTC незалежно від часового поясу машини — добра практика.
+        jdbc:
+          time_zone: UTC
+    open-in-view: false   # вимикаємо OSIV (антипатерн): сесія не тримається на весь HTTP-запит
+
+server:
+  port: 8080
