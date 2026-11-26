@@ -28,7 +28,7 @@ import java.util.List;
  * на звичайну (read-write) транзакцію. Детально транзакції — на занятті 2/6.
  */
 @Service
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
