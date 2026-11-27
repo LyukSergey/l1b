@@ -15,20 +15,17 @@ import java.util.List;
 
 /**
  * Реалізація {@link ProductService}.
- *
- * ШАР: service (реалізація). Залежить від АБСТРАКЦІЙ:
- *  - {@link ProductRepository} (інтерфейс сховища) — DIP,
- *  - {@link ProductMapper} (мапінг у DTO) — SRP.
- * Залежності приходять через конструктор (IoC/DI).
- *
- * {@code @Transactional(readOnly = true)} на рівні класу тримає Hibernate-сесію
- * відкритою на час методу — тому мапінг у DTO встигає завантажити ліниві (LAZY)
- * колекції (images, characteristics) ДО закриття сесії. Без цього (і з open-in-view=false)
- * виникала б LazyInitializationException. Методи, що ЗМІНЮЮТЬ дані, перекривають це
- * на звичайну (read-write) транзакцію. Детально транзакції — на занятті 2/6.
+ * <p>
+ * ШАР: service (реалізація). Залежить від АБСТРАКЦІЙ: - {@link ProductRepository} (інтерфейс сховища) — DIP, - {@link ProductMapper}
+ * (мапінг у DTO) — SRP. Залежності приходять через конструктор (IoC/DI).
+ * <p>
+ * {@code @Transactional(readOnly = true)} на рівні класу тримає Hibernate-сесію відкритою на час методу — тому мапінг у DTO встигає
+ * завантажити ліниві (LAZY) колекції (images, characteristics) ДО закриття сесії. Без цього (і з open-in-view=false) виникала б
+ * LazyInitializationException. Методи, що ЗМІНЮЮТЬ дані, перекривають це на звичайну (read-write) транзакцію. Детально транзакції — на
+ * занятті 2/6.
  */
 @Service
-//@Transactional(readOnly = true)
+@Transactional(readOnly = true)
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
